@@ -1,7 +1,7 @@
 # beamforming
 
-Seismo-acoustic array processing routines written in Fortran 90. All programs can be compiled with GNU Fortran compiler by invoking the typical 'make' command. Individual programs can be compiled by invoking 'make <program name>', e.g. 'make timefisher'. 
-
+Seismo-acoustic array processing routines written in Fortran 90. All programs can be compiled with GNU Fortran compiler by invoking the typical 'make' command. Individual programs can be compiled by invoking 'make <program name>', e.g. 'make timefisher'. The program uses the Fastest Fourier Transform in the West (FFTW) which can be downloaded on http://www.fftw.org
+  
 Short explanation of routines. A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python.
 
 ---
@@ -22,7 +22,7 @@ Cross-correlation Trace Stacking algorithm (e.g., Gibbons, 2015), beamforms pair
 
 **bibliography**
 
-Assink, J. D., G. Averbuch, P. S. M. Smets, and L. G. Evers (2016), On the infrasound detected from the 2013 and 2016 DPRK's underground nuclear tests, Geophys. Res. Lett., 43, 3526–3533, doi: 10.1002/2016GL068497.
+Assink, J. D., G. Averbuch, P. S. M. Smets, and L. G. Evers (2016), On the infrasound detected from the 2013 and 2016 DPRK's underground nuclear tests, Geophys. Res. Lett., 43, 3526–3533, https://doi.org/10.1002/2016GL068497 
 
 Evers, L.G. (2008), "The inaudible symphony: On the detection and source identification of atmospheric infrasound", Ph.D Thesis, Delft University of Technology, https://repository.tudelft.nl/islandora/object/uuid%3A4de38d6f-8f68-4706-bf34-4003d3dff0ce
 
@@ -33,6 +33,6 @@ Gibbons, S.J., Vladimir Asming, Lars Eliasson, Andrei Fedorov, Jan Fyen, Johan K
 Melton, B.S. and L. F. Bailey (1957). ”MULTIPLE SIGNAL CORRELATORS.” GEOPHYSICS, 22(3), 565-588.
 https://doi.org/10.1190/1.1438390
 
-Smart, E. and Flinn, E. A. (1971), Fast Frequency‐Wavenumber Analysis and Fisher Signal Detection in Real‐Time Infrasonic Array Data Processing. Geophysical Journal of the Royal Astronomical Society, 26: 279-284. doi:10.1111/j.1365-246X.1971.tb03401.x
+Smart, E. and Flinn, E. A. (1971), Fast Frequency‐Wavenumber Analysis and Fisher Signal Detection in Real‐Time Infrasonic Array Data Processing. Geophysical Journal of the Royal Astronomical Society, 26: 279-284. http://dx.doi.org/10.1111/j.1365-246X.1971.tb03401.x
 
 Szuberla, C. and J. Olson (2004), "Uncertainties associated with parameter estimation in atmospheric infrasound arrays", The Journal of the Acoustical Society of America 115:1, 253-258, https://doi.org/10.1121/1.1635407
