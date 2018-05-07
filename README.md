@@ -30,7 +30,7 @@ Time-delay of arrival (e.g., Szuberla and Olson, 2004), estimates back azimuth a
 
 **ccts**
 
-Cross-correlation Trace Stacking algorithm (e.g., Gibbons, 2015), beamforms pair-wise cross-correlation functions over a horizontal grid of slowness values. This algorithm can be considered as a cross-over between ``timefisher`` and ``ccts``.
+Cross-correlation Trace Stacking algorithm (e.g., Gibbons, 2015), beamforms pair-wise cross-correlation functions over a horizontal grid of slowness values. This algorithm can be considered as a cross-over between ``timefisher`` and ``tdoa``.
 
 --
 
