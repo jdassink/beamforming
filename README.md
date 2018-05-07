@@ -1,27 +1,36 @@
 # beamforming
 
-Seismo-acoustic array processing routines written in Fortran 90. All programs can be compiled with GNU Fortran compiler and Intel compilers, by invoking the typical 'make' command. Individual programs can be compiled by invoking 'make <program name>', e.g. 'make timefisher'. The program uses the Fastest Fourier Transform in the West (FFTW) which can be downloaded on http://www.fftw.org. Make sure to change the INCLUDE and LIB_INC environmental variables to link to the FFTW3 headers (fftw3.f) and library files.
+Array processing routines written in Fortran 90. All programs can be compiled with the GNU Fortran and Intel compilers (gfortran/ifort), by invoking the typical 'make' command. Individual programs can be compiled by invoking 'make [program name]', e.g. 'make timefisher'. The program uses the Fastest Fourier Transform in the West (FFTW) which can be downloaded on http://www.fftw.org. Make sure to change the INCLUDE and LIB_INC environmental variables to link to the FFTW3 headers (fftw3.f) and library files.
   
-A short explanation of the routines is included below. More information on the usage can be found by executing the program. 
-A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python.
+A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to specific either in ASCII or binary SAC format. Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. 
+
+If you have questions, please contact me.
+
+Jelle Assink
 
 ---
 
 **timefisher**
-Time-Domain Fisher Detector (Melton and Bailey, 1957) - command line tool. Estimates the correlation as a function of frequency over a grid of horizontal slowness values.
+
+Time-Domain Fisher detector (Melton and Bailey, 1957). A beamforming technique for the detection of coherent waveforms over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. By applying a sliding window, long timeseries can be processed.
+
+The user can design the back azimuth and apparent velocity grid over which the beamforming is done. The 'tele' option sets up a linearly spaced apparent velocity & back azimuth grid (a 'cylindrical' slowness grid) and is the recommended choice. The 'local' option spaces apparent velocities above 450 m/s logarithmically. Single beams can also be computed. The 'max' option outputs the apparent velocity and back azimuth corresponding to the maximum Fisher ratio in the grid. The 'all' option outputs the full slowness grid. Concurrent sources can be displayed in this sense.
 
 **freqfisher**
-Frequency-Domain Fisher Detector (Smart and Flinn, 1971) - command line tool. Estimates the coherency as a function of frequency over a grid of horizontal slowness values.
+
+Frequency-Domain Fisher detector (Smart and Flinn, 1971). This algorithm estimates the aforementioned parameters in discrete frequency bands. The user can specify the frequency band and averaging over frequency bands. Note that this algorithm works on raw unfiltered data as well as the estimation occurs in the frequency domain.
 
 **tdoa**
-Time-delay of arrival (e.g., Szuberla and Olson, 2004), estimates back azimuth and apparent velocity from cross-correlation functions of sensor pairs 
+
+Time-delay of arrival (e.g., Szuberla and Olson, 2004), estimates back azimuth and apparent velocity from time-delays that are estimated from cross-correlation functions of sensor pairs, including 95% uncertainty bounds.
 
 **ccts**
-Cross-correlation Trace Stacking algorithm (e.g., Gibbons, 2015), beamforms pair-wise cross-correlation functions over a horizontal grid of slowness values
+
+Cross-correlation Trace Stacking algorithm (e.g., Gibbons, 2015), beamforms pair-wise cross-correlation functions over a horizontal grid of slowness values. This algorithm can be considered as a cross-over between **timefisher** and **ccts**.
 
 --
 
-**bibliography**
+# bibliography
 
 Assink, J. D., G. Averbuch, P. S. M. Smets, and L. G. Evers (2016), On the infrasound detected from the 2013 and 2016 DPRK's underground nuclear tests, Geophys. Res. Lett., 43, 3526–3533, https://doi.org/10.1002/2016GL068497 
 
