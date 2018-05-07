@@ -2,7 +2,9 @@
 
 Array processing routines written in Fortran 90. All programs can be compiled with the GNU Fortran and Intel compilers (gfortran/ifort), by invoking the typical 'make' command. Individual programs can be compiled by invoking 'make [program name]', e.g. 'make timefisher'. The program uses the Fastest Fourier Transform in the West (FFTW) which can be downloaded on http://www.fftw.org. Make sure to change the INCLUDE and LIB_INC environmental variables to link to the FFTW3 headers (fftw3.f) and library files.
   
-A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to specific either in ASCII or binary SAC format. Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. 
+A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to be formatted either in ASCII or binary SAC format. Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). Note that the order of stations in the stationtable file must match the order of input files.
+
+A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. 
 
 If you have questions, please contact me.
 
