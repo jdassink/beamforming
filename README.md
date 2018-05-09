@@ -14,7 +14,7 @@ Jelle Assink
 
 **timefisher**
 
-Time-Domain Fisher detector (Melton and Bailey, 1957). A beamforming technique for the detection of coherent waveforms over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. By applying a sliding window, long timeseries can be processed.
+Time-Domain Fisher detector (Melton and Bailey, 1957). A beamforming technique for the detection of coherent waveforms over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. Timeseries up to one day (with typical sample rates on the order of 100 Hz) can be processed by application of a sliding window with a certain overlap. The window size in seconds and overlap in seconds can be specified from the command line.
 
 The user can design the back azimuth and apparent velocity grid over which the beamforming is done. There are several options. The ``tele`` option sets up a linearly spaced apparent velocity & back azimuth grid (a 'cylindrical' slowness grid) and is the recommended choice. Single beams can also be computed. The ``local`` option spaces apparent velocities above 450 m/s logarithmically and is useful for nearby infrasound but also the joint observation of seismic and infrasonic waves. 
 
