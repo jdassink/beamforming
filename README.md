@@ -2,9 +2,9 @@
 
 Array processing routines written in Fortran 90. All programs can be compiled with the GNU Fortran and Intel compilers (gfortran/ifort), by invoking the typical ``make`` command. Individual programs can be compiled by invoking ``make [program name]``, e.g. ``make timefisher``. The program uses the Fastest Fourier Transform in the West version 3 (FFTW3) which can be downloaded on http://www.fftw.org. Make sure to change the INCLUDE and LIB_INC environmental variables to link to the FFTW3 headers (fftw3.f) and library files.
   
-A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to be formatted either in ASCII or binary SAC format. Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). Note that the order of stations in the stationtable file must match the order of input files.
+A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to be formatted either in binary SAC format or plain ASCII (two columns showing time and sample value). Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). Note that the order of stations in the stationtable file must match the order of input files.
 
-A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. 
+A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. I will add synthetic and real examples.
 
 If you have questions, please contact me.
 
@@ -14,7 +14,7 @@ Jelle Assink
 
 **timefisher**
 
-Time-Domain Fisher detector (Melton and Bailey, 1957). A beamforming technique for the detection of coherent waveforms over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. Timeseries up to one day (with typical sample rates on the order of 100 Hz) can be processed by application of a sliding window with a certain overlap. The window size in seconds and overlap in seconds can be specified from the command line.
+Time-Domain Fisher detector (Melton and Bailey, 1957). A beamforming technique for the detection of coherent waveforms from array recordings. The detector seeks for coherent signals over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. Array recordings up to one day (with typical sample rates on the order of 100 Hz) can be processed by application of a sliding window with a certain overlap. The window size in seconds and overlap in seconds can be specified from the command line.
 
 The user can design the back azimuth and apparent velocity grid over which the beamforming is done. There are several options. The ``tele`` option sets up a linearly spaced apparent velocity & back azimuth grid (a 'cylindrical' slowness grid) and is the recommended choice. Single beams can also be computed. The ``local`` option spaces apparent velocities above 450 m/s logarithmically and is useful for nearby infrasound but also the joint observation of seismic and infrasonic waves. 
 
