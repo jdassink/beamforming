@@ -4,7 +4,7 @@ Array processing routines written in Fortran 90. All programs can be compiled wi
   
 A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to be formatted either in binary SAC format or plain ASCII (two columns showing time and sample value). Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). Note that the order of stations in the stationtable file must match the order of input files.
 
-A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. I will add synthetic and real examples.
+A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. I will add synthetic and real data examples.
 
 If you have questions, please contact me.
 
