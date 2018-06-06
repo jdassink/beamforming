@@ -28,7 +28,7 @@ Frequency-Domain Fisher detector (Smart and Flinn, 1971). This algorithm estimat
 
 **tdoa**
 
-Time-delay of arrival (e.g., Szuberla and Olson, 2004), estimates back azimuth and apparent velocity from time-delays that are estimated from cross-correlation functions of sensor pairs, including 95% uncertainty bounds.
+Time-difference of arrival (e.g., Szuberla and Olson, 2004), estimates back azimuth and apparent velocity from time-delays that are estimated from cross-correlation functions of sensor pairs, including 95% uncertainty bounds.
 
 **ccts**
 
