@@ -113,11 +113,12 @@
     write(6,*) '   5. Slowness X     [s/m]'
     write(6,*) '   6. Slowness Y     [s/m]'
     write(6,*) '   7. RMS amplitude'
-    write(6,*) '   8. # of instruments used in analysis'
-    write(6,*) '   9. Center frequency     [Hz]'
-    write(6,*) '  10. Frequency bandwidth  [Hz]'
-    write(6,*) '  11. RMS frequency        [Hz]'
-    write(6,*) '  12. Fisher-ratio (waveform data)'
+    write(6,*) '   8. Peak-to-peak amplitude'
+    write(6,*) '   9. # of instruments used in analysis'
+    write(6,*) '  10. Center frequency     [Hz]'
+    write(6,*) '  11. Frequency bandwidth  [Hz]'
+    write(6,*) '  12. RMS frequency        [Hz]'
+    write(6,*) '  13. Fisher-ratio (waveform data)'
     write(6,*) ' '
     write(6,*) ' Bestbeam output is written out as SAC file <bestbeam.sac>'
     write(6,*) '________________________________________________________________________'
@@ -137,7 +138,7 @@
     integer   k, n_instr, alloc_samples, alloc_instr
     integer   bin, n_bins, overlap, start_sample, end_sample
     integer   binsize, fbinsize, i, n_pairs, oversampling, zpd
-    double precision tbinsize, fisher, mccm, px, py, bearing, trcvel, prms, time, fsrate
+    double precision tbinsize, fisher, mccm, px, py, bearing, trcvel, prms, p2p, time, fsrate
 
 
     type(Slowness) :: s_grid
@@ -235,10 +236,10 @@
        call beamgrid_maximum(results,px,py,mccm)
        call convert_slowness(px,py,bearing,trcvel)
        call compute_f_ratio(start_sample,binsize,n_instr,header%srate,counts,r,px,py,fisher)
-       call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,freq)
+       call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
 
-       write (30,98) time, mccm, bearing, trcvel, px, py, prms, n_instr, freq%center, freq%bandwith, freq%rms, fisher
-       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, i2, &
+       write (30,98) time, mccm, bearing, trcvel, px, py, prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms, fisher
+       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, i2, &
 &                                                                  1x, f8.3, 1x, f8.3, 1x, f8.3, 1x, f10.2 )
 
       elseif (max_all == 'all') then

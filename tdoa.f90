@@ -273,15 +273,16 @@
     write(6,*) '   5. Slowness X     [s/m]'
     write(6,*) '   6. Slowness Y     [s/m]'
     write(6,*) '   7. RMS amplitude'
-    write(6,*) '   8. # of instruments used in analysis'
-    write(6,*) '   9. Center frequency  [Hz]'
-    write(6,*) '  10. ----------------------------------------'
-    write(6,*) '  11. Mean of cross-correlation maximum (MCCM)'
-    write(6,*) '  12. Least squares error'
-    write(6,*) '  13. Sigma_t        [s]'
-    write(6,*) '  14. Q-value'
-    write(6,*) '  15. Std. error azimuth        [deg]'
-    write(6,*) '  16. Std. error trace velocity [m/s]'
+    write(6,*) '   8. Peak-to-peak amplitude'    
+    write(6,*) '   9. # of instruments used in analysis'
+    write(6,*) '  10. Center frequency  [Hz]'
+    write(6,*) '  11. ----------------------------------------'
+    write(6,*) '  12. Mean of cross-correlation maximum (MCCM)'
+    write(6,*) '  13. Least squares error'
+    write(6,*) '  14. Sigma_t        [s]'
+    write(6,*) '  15. Q-value'
+    write(6,*) '  16. Std. error azimuth        [deg]'
+    write(6,*) '  17. Std. error trace velocity [m/s]'
     write(6,*) ' '
     write(6,*) ' High Q values are indicative of near field arrivals '
     write(6,*) ' '
@@ -304,7 +305,7 @@
     integer   binsize, fbinsize, bin, n_bins, overlap, start_sample, end_sample, oversampling
     double precision tbinsize, fisher, px, py, bearing, velocity, pi, mccm
     double precision error, sigma, Q, lambda_x, lambda_y, angle
-    double precision vel_dev, bear_dev, prms, time, fsrate
+    double precision vel_dev, bear_dev, prms, p2p, time, fsrate
     character(40) file_format, fid_beam
 
     double precision, allocatable, dimension(:,:) :: r, counts, counts_bin, bestbeam
@@ -390,12 +391,12 @@
       call compute_uncertainties(pi,sigma,lambda_x,lambda_y,angle,px,py,vel_dev,bear_dev)
 
       call compute_f_ratio(start_sample,binsize,n_instr,header%srate,counts,r,px,py,fisher)
-      call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,freq)
+      call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
       call convert_slowness(px,py,bearing,velocity)
 
-      write (30,99) time, fisher, bearing, velocity, px, py, prms, n_instr, &
+      write (30,99) time, fisher, bearing, velocity, px, py, prms, p2p, n_instr, &
 &             freq%center, ' ---', mccm, error, sigma, Q, bear_dev, vel_dev
-99    format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f10.2, 1x, e11.3, 1x, e11.3, 1x, e11.3, 1x, i2, &
+99    format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f10.2, 1x, e11.3, 1x, e11.3, 1x, e11.3, 1x, e11.3, 1x, i2, &
 &                1x, f8.3 , a4, 1x, f4.2, 1x, e11.3, 1x, e11.3, 1x, f10.2, 1x, f10.2, 1x, f10.2)
     end do
 

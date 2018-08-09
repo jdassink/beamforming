@@ -107,10 +107,11 @@
     write(6,*) '   5. Slowness X     [s/m]'
     write(6,*) '   6. Slowness Y     [s/m]'
     write(6,*) '   7. RMS amplitude'
-    write(6,*) '   8. # of instruments used in analysis'
-    write(6,*) '   9. Center frequency     [Hz]'
-    write(6,*) '  10. Frequency bandwidth  [Hz]'
-    write(6,*) '  11. RMS frequency        [Hz]'
+    write(6,*) '   8. Peak-to-peak amplitude'    
+    write(6,*) '   9. # of instruments used in analysis'
+    write(6,*) '  10. Center frequency     [Hz]'
+    write(6,*) '  11. Frequency bandwidth  [Hz]'
+    write(6,*) '  12. RMS frequency        [Hz]'
     write(6,*) ' '
     write(6,*) ' Bestbeam output is written out as SAC file <bestbeam.sac>'
     write(6,*) '________________________________________________________________________'
@@ -128,7 +129,7 @@
 
     integer   k, n_instr, alloc_samples, alloc_instr
     integer   bin, n_bins, binsize, overlap, start_sample, end_sample
-    double precision fisher, px, py, bearing, trcvel, prms, time, tbinsize
+    double precision fisher, px, py, bearing, trcvel, prms, p2p, time, tbinsize
 
     type(Slowness) :: s_grid
     type(Frequency) :: freq
@@ -194,10 +195,10 @@
       if (max_all .eq. 'max') then
        call beamgrid_maximum(results,px,py,fisher)
        call convert_slowness(px,py,bearing,trcvel)
-       call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,freq)
+       call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
 
-       write (30,98) time, fisher, bearing, trcvel, px, py, prms, n_instr, freq%center, freq%bandwith, freq%rms
-       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8,1x,e15.8,1x,i2,1x,f8.3,1x,f8.3,1x,f8.3)
+       write (30,98) time, fisher, bearing, trcvel, px, py, prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms
+       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x,i2,1x,f8.3,1x,f8.3,1x,f8.3)
 
       elseif (max_all .eq. 'all') then
        do k=1,s_grid%n_beams
@@ -205,7 +206,7 @@
         px = results(k,2)
         py = results(k,3)
         call convert_slowness(px,py,bearing,trcvel)
-        !call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,freq)
+        !call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
 
         write (30,99) time, fisher, bearing, trcvel, px, py, n_instr
         99 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8,1x,i2)

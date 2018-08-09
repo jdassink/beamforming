@@ -245,10 +245,10 @@
   end subroutine
 
 
-  subroutine get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,freq)
+  subroutine get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
     implicit none
     integer binsize, n_instr, bin, start_sample, end_sample, overlap, c, ss_c, es_c
-    double precision prms, px, py
+    double precision prms, p2p, px, py
     double precision, allocatable, dimension (:,:) :: r, counts, bb, bestbeam
     type(Frequency) :: freq
     type(WFHeader) :: header
@@ -263,14 +263,17 @@
       bb(1:binsize,1) = bb(1:binsize,1) + counts(ss_c:es_c,c)
     end do
 
+    bb = bb / n_instr
+
     prms = sqrt( sum(bb**2)/size(bb) )
+    p2p = maxval(bb(:,1)) - minval(bb(:,1))
 
     ! Measures from Barnes et al., 1993, Geophysics
     call get_freq_parameters(binsize,header%srate,bb,freq)
 
     if (mod(bin,int(binsize/overlap)) .eq. 0) then
       end_sample = start_sample + (binsize-1)
-      bestbeam(start_sample:end_sample,1) = bb(1:binsize,1) / n_instr
+      bestbeam(start_sample:end_sample,1) = bb(1:binsize,1)
     endif    
 
     deallocate(bb)
