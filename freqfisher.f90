@@ -207,7 +207,7 @@
     write(6,*) '   4. Back azimuth   [deg]'
     write(6,*) '   5. Trace velocity [m/s]'
     write(6,*) '   6. # of instruments used in analysis'
-    write(6,*) '   7. Spectral power [amp^2]'
+    write(6,*) '   7. Power spectral density [amp^2/Hz]'
     write(6,*) ' '
     write(6,*) '________________________________________________________________________'
     write(6,*) ' '
