@@ -207,6 +207,7 @@
     write(6,*) '   4. Back azimuth   [deg]'
     write(6,*) '   5. Trace velocity [m/s]'
     write(6,*) '   6. # of instruments used in analysis'
+    write(6,*) '   7. Spectral power [amp^2]'
     write(6,*) ' '
     write(6,*) '________________________________________________________________________'
     write(6,*) ' '
@@ -224,7 +225,7 @@
     integer   fr, n_instr, fr_min, fr_max, dfr, alloc_instr, alloc_samples
     integer   binsize, fbinsize, bin, n_bins, overlap, start_sample, end_sample
     double precision tbinsize, fisher, pi, bearing, trcvel
-    double precision px, py, time, df
+    double precision px, py, time, df, e_w, e_wp_abs
 
     double precision, allocatable, dimension(:,:) :: r, counts, counts_bin
     double complex, allocatable, dimension(:,:) :: ffisher_matrix
@@ -323,9 +324,10 @@
         
         call compute_freqfisher(freq,fr,df,n_instr,s_grid,r,ffisher_matrix,fisher,px,py)
         call convert_slowness(px,py,bearing,trcvel)
+        call compute_fk_terms(n_instr,px,py,r,freq,fr,df,ffisher_matrix,e_wp_abs,e_w)
 
-        write(30,99) time, freq%average, fisher, bearing, trcvel, n_instr
-        99 format(f10.2, 1x, f10.5, 1x, f15.2, 1x, f9.2, 1x, f9.2, 1x, i2)
+        write(30,99) time, freq%average, fisher, bearing, trcvel, n_instr, e_wp_abs
+        99 format(f10.2, 1x, f10.5, 1x, f15.2, 1x, f9.2, 1x, f9.2, 1x, i2, 1x, e15.8)
 
         fr = fr + dfr*freq%smoother
       end do
