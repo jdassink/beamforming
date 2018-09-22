@@ -4,13 +4,15 @@ Array processing routines written in Fortran 90.
 
 These algorithms have been designed and implemented previously by other scientists and have been documented in the literature. I have included a set of references that I am familiar with, along with the description of each algorithm. Please do refer to these papers when using the algorithms. 
 
-All programs can be compiled with the GNU Fortran and Intel compilers (gfortran/ifort), by invoking the typical ``make`` command. Individual programs can be compiled by invoking ``make [program name]``, e.g. ``make timefisher``. The program uses the Fastest Fourier Transform in the West version 3 (FFTW3) which can be downloaded on http://www.fftw.org. 
+A short explanation of the routines is included below. More information on the usage can be found by executing the program. Some basic knowledge of data processing and UNIX computing is assumed.
 
-Make sure to change the INCLUDE and LIB_INC environmental variables in the ``Makefile`` to link to the FFTW3 headers and library files on your computer. The ``CPU`` optimization tag should match the CPU architecture of your computer.
-  
+--
+
+All programs can be compiled with the GNU Fortran and Intel compilers (gfortran/ifort), by invoking the typical ``make`` command. Individual programs can be compiled by invoking ``make [program name]``, e.g. ``make timefisher``. The program uses the Fastest Fourier Transform in the West version 3 (FFTW3) which can be downloaded on http://www.fftw.org. Make sure to change the INCLUDE and LIB_INC environmental variables in the ``Makefile`` to link to the FFTW3 headers and library files on your computer. The ``CPU`` optimization tag should match the CPU architecture of your computer.
+
 The algorithms work on detrended and band-pass filtered waveforms. The data is to be formatted either in binary SAC format or plain ASCII (two columns showing time and sample value). Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). For now, the order of stations in the stationtable file must match the order of input files.
 
-A short explanation of the routines is included below. More information on the usage can be found by executing the program. Some basic knowledge of data processing and UNIX computing is assumed. 
+--
 
 I have included a few example cases to get familiar with the algorithms. Both synthetic and real data cases are included. The datasets are described in their respective folders. If you do have questions, feel free to ask.
 
