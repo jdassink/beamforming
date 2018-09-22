@@ -8,11 +8,13 @@ Make sure to change the INCLUDE and LIB_INC environmental variables in the ``Mak
   
 A short explanation of the routines is included below. More information on the usage can be found by executing the program. All algorithms work on detrended and band-pass filtered waveforms. The data is to be formatted either in binary SAC format or plain ASCII (two columns showing time and sample value). Signal processing tools to obtain such waveforms include Seismic Analysis Code (SAC; http://ds.iris.edu/ds/nodes/dmc/software/downloads/SAC/101-6a/) and Obspy (www.obspy.org). Note that the order of stations in the stationtable file must match the order of input files.
 
-A detailed decription of the algorithms can be found in Evers, 2008. Recent examples of the use of the codes can be found in Assink et al., 2016 and Evers et al., 2018. An effort is underway to port these algorithms to Python. 
+These algorithms have been implemented previously and have been documented in the scientific literature. I have included a set of references that I am familiar with, along with the description of each algorithm. Please do refer to these papers when using the algorithms. 
+
+An effort is underway to port these algorithms to Python.
 
 I have included a few example cases to get familiar with the algorithms. Both synthetic and real data cases are included. The datasets are described in their respective folders.
 
-If you have questions, feel free to contact me.
+If you have questions, feel free to ask.
 
 Jelle Assink
 
@@ -20,7 +22,9 @@ Jelle Assink
 
 **timefisher**
 
-Time-Domain Fisher detector (Melton and Bailey, 1957). A beamforming technique for the detection of coherent waveforms from array recordings. The detector seeks for coherent signals over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. Array recordings up to one day (with typical sample rates on the order of 100 Hz) can be processed by application of a sliding window with a certain overlap. The window size in seconds and overlap in seconds can be specified from the command line.
+Time-Domain Fisher detector (Melton and Bailey, 1957). A detailed decription of ``timefisher`` can be found in Evers, 2008.
+
+A beamforming technique for the detection of coherent waveforms from array recordings. The detector seeks for coherent signals over a grid of plane wave parameters, i.e. back azimuth and apparent velocity. The detection of a signal is based on the evaluation of a Fisher ratio. The probability of detection can be estimated through the statistical framework of Fisher statistics. Moreover, a SNR value can be estimated from the Fisher ratio. Array recordings up to one day (with typical sample rates on the order of 100 Hz) can be processed by application of a sliding window with a certain overlap. The window size in seconds and overlap in seconds can be specified from the command line.
 
 The user can design the back azimuth and apparent velocity grid over which the beamforming is done. There are several options. The ``tele`` option sets up a linearly spaced apparent velocity & back azimuth grid (a 'cylindrical' slowness grid) and is the recommended choice. Single beams can also be computed. The ``local`` option spaces apparent velocities above 450 m/s logarithmically and is useful for nearby infrasound but also the joint observation of seismic and infrasonic waves. 
 
@@ -28,7 +32,9 @@ Moreover, it is common to focus on the dominant source of energy within a time w
 
 **freqfisher**
 
-Frequency-Domain Fisher detector (Smart and Flinn, 1971). This algorithm estimates the aforementioned parameters in discrete frequency bands. The user can specify the frequency band and averaging over frequency bands. Note that this algorithm works on raw unfiltered data as well as the estimation occurs in the frequency domain.
+Frequency-Domain Fisher detector (Smart and Flinn, 1971). A detailed decription of ``freqfisher`` can be found in Evers, 2008.
+
+This algorithm estimates the aforementioned parameters in discrete frequency bands. The user can specify the frequency band and averaging over frequency bands. Note that this algorithm works on raw unfiltered data as well as the estimation occurs in the frequency domain.
 
 **tdoa**
 
