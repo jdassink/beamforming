@@ -4,7 +4,7 @@ Array processing routines written in Fortran 90.
 
 These algorithms have been designed and implemented previously by other scientists and have been documented in the literature. I have included a set of references that I am familiar with, along with the description of each algorithm. Please do refer to these papers when using the algorithms. 
 
-A short explanation of the routines is included below. More information on the usage can be found by executing the program. Some basic knowledge of data processing and UNIX computing is assumed.
+A short explanation of the routines is included below. More information on the usage can be found by executing the program. Some (basic) knowledge of data processing and UNIX computing is assumed.
 
 --
 
