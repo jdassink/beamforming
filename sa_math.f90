@@ -3,12 +3,15 @@
 !!
 
   module sa_math
+  implicit none
+
+  double precision, parameter :: pi = 3.1415926536
+  double complex, parameter :: im = (0.,1.)
 
   contains
 
   subroutine jacobi(A,N,D,V,NROT)
   ! Ref.:"NUMERICAL RECIPES, Cambridge University Press, 1986
-   implicit none
    integer ip, iq, i, j
    integer N,NROT
    real*8  A(1:N,1:N),D(1:N),V(1:N,1:N)
@@ -119,7 +122,6 @@
     ! natural spline, with zero second derivative on that boundary.
     ! (c) modified from Numerical recipes
     !-----------------------------------------------------------------------
-    implicit none
     integer                                    :: n,i,k
     integer, parameter                         :: idouble = kind(1.0d0)
     integer, parameter                         :: isingle = kind(1.0)
@@ -166,7 +168,6 @@
 ! the routine returns a cubic-spline interpolated value of y.
 ! (c) modified from Numerical recipes
 !-----------------------------------------------------------------------
-    implicit none
     integer                                    :: n,k,khi,klo
     integer, parameter                         :: idouble = kind(0.0d0)
     integer, parameter                         :: isingle = kind(0.0)

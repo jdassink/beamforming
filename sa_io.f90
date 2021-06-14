@@ -1,9 +1,9 @@
   ! Basic seismo-acoustic IO routines, shared by timefisher and freqfisher
  
   module sa_io
-  use string_utility
   use f90sac
-
+  implicit none
+  
   type :: WFHeader
   integer nzyear, nzjday, nzhour, nzmin, nzsec, nzmsec, n_samples
   double precision srate, tzero
@@ -12,14 +12,12 @@
   contains
 
   subroutine get_timeseries(n_instr,file_format,timeseries,alloc_samples,header,counts)
-    implicit none
     integer n_instr, instr, min_samples, alloc_samples
     character(40), allocatable, dimension (:) :: timeseries
     character(40) file_format
     double precision, allocatable, dimension(:,:) :: counts
     type(WFHeader) :: header
 
-    file_format = StrLowCase(file_format)
     min_samples = 0
 
     do instr=1,n_instr
@@ -46,7 +44,6 @@
   end subroutine
 
   subroutine read_ascii(fid,instr,alloc_samples,header,counts)
-    implicit none
     character(40) fid
     integer instr, alloc_samples
     double precision    time
@@ -94,7 +91,6 @@
   end subroutine
 
   subroutine read_sac(fid,instr,alloc_samples,header,counts)
-    implicit none
     character(40) fid
     double precision, allocatable, dimension(:,:) :: counts
     integer instr, alloc_samples
@@ -125,7 +121,6 @@
 
 
   subroutine write_sac(fid,header,bestbeam)
-    implicit none
     character(40) fid
     double precision, allocatable, dimension(:,:) :: bestbeam
     real delta
@@ -152,8 +147,8 @@
     
     !tr%b = 0.
     !tr%e = tr%b + (tr%npts-1)*tr%delta
-    tr%kstnm = 'BESTBEAM'
-    tr%kcmpnm = 'M'
+    tr%kstnm = 'ARRAY'
+    tr%kcmpnm = 'BEAM'
     tr%trace(1:tr%npts) = real(bestbeam(1:header%n_samples,1))
 
     call f90sac_writetrace(fid,tr)

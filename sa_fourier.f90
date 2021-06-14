@@ -2,20 +2,21 @@
  
   module sa_fourier
   use sa_math
-  include 'fftw3.f'
+  implicit none
 
+  include 'fftw3.f'
+  
   type :: Frequency
   double precision dominant, center, bandwith, rms
   double precision f_min, f_max, f_step, average
   integer smoother
   end type
-
+  
   contains
 
   subroutine compute_dft_1d(m,n,input,output)
     ! Transforms M 1-D double precision arrays with N samples each
     ! to M 1-D double complex Fourier transformed arrays
-    implicit none
     integer n, m, i
     integer*8 plan
     double precision, allocatable, dimension(:,:) :: input
@@ -31,7 +32,6 @@
   subroutine compute_idft_1d(m,n,input,output)
     ! Inverse transform M 1-D double precision arrays with N samples each
     ! to M 1-D double complex Fourier transformed arrays
-    implicit none
     integer n, m, i
     integer*8 iplan
     double precision, allocatable, dimension(:,:) :: output
@@ -46,7 +46,6 @@
 
   subroutine get_freq_parameters(n_samples,srate,input,freq)
     ! From Arthur E. Barnes, Geophysics, 1993
-    implicit none
     integer n_samples, fr
     double precision srate, df, max_ampl, ampl, ampl_, Power, WPower, f
     double precision, allocatable, dimension (:,:) :: input
@@ -100,9 +99,9 @@
 
 
   subroutine xcorr(s1,s2,ndim,size,fft_size,srate,tau,c_wrap,t_max,c_max)
-   implicit none
    integer i, j, size, fft_size, fft_real, ndim
    double precision c_max, t_max, srate
+   
    double precision, allocatable, dimension(:)   :: tau, c_wrap
    double precision, allocatable, dimension(:,:) :: s1, s2, c_t, b_t, a_t 
    double complex  , allocatable, dimension(:,:) :: a, b, c, s1_fft, s2_fft
@@ -182,13 +181,10 @@
   end subroutine xcorr 
 
   subroutine window_data(n_instr,binsize,counts_bin)
-    implicit none
     integer   i, n_instr
     integer   binsize
-    double precision hann, pi
+    double precision hann
     double precision, allocatable, dimension(:,:) :: counts_bin
-
-    pi = Acos(-1.)
 
     do i=1,binsize
       hann = 0.5*(1.0-cos((2*pi*(i-1))/(binsize-1)))
@@ -197,13 +193,10 @@
   end subroutine
 
   subroutine zeropadding(n_instr,start_sample,tbinsize,fbinsize,counts,counts_bin)
-    implicit none
     integer   n_instr
     integer   tbinsize, fbinsize, start_sample, end_sample
-    double precision pi
     double precision, allocatable, dimension(:,:) :: counts, counts_bin
 
-    pi = Acos(-1.)
     end_sample = start_sample + (tbinsize-1)
     counts_bin(1:fbinsize,1:n_instr) = 0.0
     counts_bin(1:tbinsize,1:n_instr) = counts(start_sample:end_sample,1:n_instr)

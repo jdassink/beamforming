@@ -5,16 +5,17 @@
   ! Date       : November 2010
  
   module td_fisher
+  use string_utility
   use sa_array
+  implicit none
 
   contains 
 
-  subroutine get_cmd_parameters(n_instr,tbinsize,overlap,s_grid,r,tele_local,max_all,file_format,timeseries)
-    implicit none
+  subroutine get_cmd_parameters(n_instr,tbinsize,overlap,s_grid,r,file_format,timeseries)
     integer i, n_instr, eof, overlap, iargc
     double precision tbinsize
     character(40), allocatable, dimension (:) :: timeseries
-    character(40) coordinates, file_format, tele_local, max_all, dummy
+    character(40) coordinates, file_format, dummy
     double precision, allocatable, dimension(:,:) :: r
 
     type(Slowness) :: s_grid
@@ -48,10 +49,13 @@
     call getarg(9, dummy)
     read(dummy,*) s_grid%dc
     call getarg(10, dummy)
-    read(dummy,*) tele_local
+    dummy = StrLowCase(dummy)
+    read(dummy,*) s_grid%tele_local
     call getarg(11, dummy)
-    read(dummy,*) max_all
+    dummy = StrLowCase(dummy)
+    read(dummy,*) s_grid%max_all
     call getarg(12, dummy)
+    dummy = StrLowCase(dummy)
     read(dummy,*) file_format
     i = 1
     do while ( i < n_instr+1 )
@@ -127,7 +131,7 @@
     use td_fisher
     implicit none
 
-    integer   k, n_instr, alloc_samples, alloc_instr
+    integer   k, n_instr, alloc_samples, alloc_instr, ci, bi
     integer   bin, n_bins, binsize, overlap, start_sample, end_sample
     double precision fisher, px, py, bearing, trcvel, prms, p2p, time, tbinsize
 
@@ -135,23 +139,24 @@
     type(Frequency) :: freq
     type(WFHeader) :: header
 
-    double precision, allocatable, dimension(:,:) :: r, counts, bestbeam, results
+    double precision, allocatable, dimension(:) :: results
+    double precision, allocatable, dimension(:,:) :: r, counts, bestbeam
     character(40), allocatable, dimension (:) :: timeseries
-    character(40) file_format, tele_local, max_all, fid_beam, statistic
+    character(40) file_format, fid_beam, statistic
 
     statistic = 'fisher'
     alloc_instr = 50
     alloc_samples = 2*24*3600*250
 
     allocate(timeseries(alloc_instr))
-    allocate(r(alloc_instr,3))
+    allocate(r(alloc_instr,5))
 
-    call get_cmd_parameters(n_instr,tbinsize,overlap,s_grid,r,tele_local,max_all,file_format,timeseries)
-    call span_slowness_grid(s_grid,tele_local)
+    call get_cmd_parameters(n_instr,tbinsize,overlap,s_grid,r,file_format,timeseries)
+    call span_slowness_grid(s_grid)
 
     allocate(counts(alloc_samples,n_instr))
     allocate(bestbeam(alloc_samples,1))
-    allocate(results(s_grid%n_beams,3))
+    allocate(results(s_grid%n_beams))
 
     write(6,*) ' '
     write(6,*) ' '
@@ -176,7 +181,7 @@
     write(6,'(a32,f8.2,a3,f8.2,a6)') ' Trace velocity domain : [ ', s_grid%trcvel_min, ' - ', s_grid%trcvel_max, ' ] m/s'
     write(6,'(a32,f8.2,a3,f8.2,a6)') ' Bearing domain : [ ', s_grid%bearing_min, ' - ', s_grid%bearing_max, ' ] deg'
     write(6,*) ''
-    write(6,'(a32,a3)') ' Output type : ', max_all
+    write(6,'(a32,a3)') ' Output type : ', s_grid%max_all
 
     open (unit=30, file='timefisher.dat')
     fid_beam = 'bestbeam.sac'
@@ -192,39 +197,42 @@
 
       call beamgrid(statistic,start_sample,header%srate,binsize,s_grid,n_instr,r,counts,results)
 
-      if (max_all .eq. 'max') then
-       call beamgrid_maximum(results,px,py,fisher)
-       call convert_slowness(px,py,bearing,trcvel)
+      if (s_grid%max_all .eq. 'max') then
+       call beamgrid_maximum(results,k)
+       px = s_grid%px(k)
+       py = s_grid%py(k)
+
        call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
 
-       write (30,98) time, fisher, bearing, trcvel, px, py, prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms
-       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x,i2,1x,f8.3,1x,f8.3,1x,f8.3)
+       write (30,98) time, results(k), s_grid%bearing(s_grid%bi(k)), s_grid%trcvel(s_grid%ci(k)), px, py,  &
+  &                        prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms
+       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x,   &
+  &                        e15.8, 1x, e15.8, 1x, i2, 1x, f8.3, 1x, f8.3, 1x, f8.3)
 
-      elseif (max_all .eq. 'all') then
+      elseif (s_grid%max_all .eq. 'all') then
        do k=1,s_grid%n_beams
-        fisher = results(k,1)
-        px = results(k,2)
-        py = results(k,3)
-        call convert_slowness(px,py,bearing,trcvel)
-        !call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
-
-        write (30,99) time, fisher, bearing, trcvel, px, py, n_instr
-        99 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8,1x,i2)
+        write (30,99) time, results(k), s_grid%bearing(s_grid%bi(k)), s_grid%trcvel(s_grid%ci(k)), n_instr
+        99 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, i2)
        end do
        write (30,*) ''
       endif
     
     end do
 
-    if (max_all .eq. 'max') then
+    if (s_grid%max_all .eq. 'max') then
      call write_sac(fid_beam,header,bestbeam)
     endif
 
     close(30)
 
-    deallocate(r)
+    deallocate(s_grid%bearing)
+    deallocate(s_grid%trcvel)
+    deallocate(s_grid%bi)
+    deallocate(s_grid%ci)
     deallocate(s_grid%px)
     deallocate(s_grid%py)
+    
+    deallocate(r)
     deallocate(counts)
     deallocate(bestbeam)
     deallocate(results)

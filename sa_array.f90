@@ -3,18 +3,20 @@
   module sa_array
   use sa_io
   use sa_fourier
+  implicit none
   
   type :: Slowness
-  double precision dc, dth
-  double precision bearing_min, bearing_max, trcvel_min, trcvel_max
-  double precision, allocatable, dimension (:) :: px, py
-  integer n_beams
+   double precision dc, dth
+   double precision bearing_min, bearing_max, trcvel_min, trcvel_max
+   double precision, allocatable, dimension (:) :: bearing, trcvel, px, py
+   integer, allocatable, dimension (:) :: bi, ci
+   integer n_beams, n_c, n_b
+   character(40) grid_type, tele_local, max_all
   end type
 
   contains
 
   subroutine get_coordinates(fid,n_instr,r)
-    implicit none
     character(40) fid, dummy
     integer n_instr
     double precision, allocatable, dimension(:,:) :: r
@@ -28,7 +30,7 @@
       n_instr = 0
       do while (.true.)
         n_instr = n_instr + 1
-        read (11,*, end=991) dummy, r(n_instr,1), r(n_instr,2), elev, edepth
+        read (11,*, end=991) dummy, r(n_instr,1), r(n_instr,2), elev, edepth, r(n_instr,4), r(n_instr,5)
         r(n_instr,3) = elev + edepth
       end do
       991 continue
@@ -39,13 +41,16 @@
       write(6,*) ''
       call exit(1)
     endif
-    r(1:n_instr,1) = r(1:n_instr,1) - sum(r(1:n_instr,1))/n_instr
-    r(1:n_instr,2) = r(1:n_instr,2) - sum(r(1:n_instr,2))/n_instr
+    ! Take first element of array as beam reference
+    r(1:n_instr,1) = r(1:n_instr,1) - r(1,1)
+    r(1:n_instr,2) = r(1:n_instr,2) - r(1,2)    
+    ! Take middle point of array as beam reference
+    !r(1:n_instr,1) = r(1:n_instr,1) - sum(r(1:n_instr,1))/n_instr
+    !r(1:n_instr,2) = r(1:n_instr,2) - sum(r(1:n_instr,2))/n_instr
   end subroutine
 
 
   subroutine get_co_array(r,n_instr,coarray)
-   implicit none
    integer i, j, n_pairs, n_instr
    double precision, allocatable, dimension(:,:) :: r, coarray
 
@@ -61,106 +66,109 @@
 
 
   subroutine convert_slowness(px,py,bearing,trcvel)
-    implicit none
-    double precision pi, px, py, bearing, trcvel
+    double precision px, py, bearing, trcvel
 
-    pi = Acos(-1.)
-    bearing = (180./pi)*Atan2(px, py)
+    bearing = modulo((180./pi)*Atan2(px, py),360.)
     trcvel  = 1./sqrt(px**2+py**2)
-    if (bearing < 0.0) then
-      bearing   = bearing + 360.0
-    endif
   end subroutine
 
 
-  subroutine span_slowness_grid(s_grid,tele_local)
-    implicit none
-    integer i, j, k, l, trcvel_grid, bearing_grid, linear_grid, n_c_local
-    double precision pi, p_vec, c_tr, theta
-    double precision alpha, delta, linear_max
-    character(40) tele_local, grid_type
+  subroutine convert_to_slowness(bearing,trcvel,px,py)
+    double precision px, py, bearing, trcvel
+
+    px = sin((pi/180.0)*bearing) / trcvel
+    py = cos((pi/180.0)*bearing) / trcvel
+  end subroutine
+
+
+  subroutine span_slowness_grid(s_grid)
+    integer i, trcvel_grid, linear_grid, n_c_local
+    double precision alpha, delta, linear_max, c_tr, px, py
     type(Slowness) :: s_grid
 
-    !grid_type = "square"
-    grid_type = "cylindrical"
+    s_grid%grid_type = 'cylindrical'
 
-    if (grid_type == "square") then
-      l = 100
-      s_grid%n_beams = l*l
-
-      allocate(s_grid%px(s_grid%n_beams))
-      allocate(s_grid%py(s_grid%n_beams))
-
-      do i = 1,l
-        do j = 1,l
-         k = (i-1)*l + j
-         s_grid%px(k) = -0.005 + (i-1)*0.01/l 
-         s_grid%py(k) = -0.005 + (j-1)*0.01/l
-       end do
-      end do
-
-    elseif (grid_type == "cylindrical") then
-      tele_local  = StrLowCase(tele_local)
+    if (s_grid%grid_type == 'cylindrical') then
       linear_max  = 450.0
 
-      if (tele_local == "tele") then
+      if (s_grid%tele_local == 'tele') then
         trcvel_grid = nint((s_grid%trcvel_max  - s_grid%trcvel_min  ) / s_grid%dc ) + 1
-      elseif (tele_local == "local") then
+
+      elseif (s_grid%tele_local == 'local') then
         linear_grid = nint((linear_max  - s_grid%trcvel_min  ) / s_grid%dc ) + 1
         delta       = s_grid%trcvel_max - linear_max
-        alpha       = s_grid%dc / linear_max
+        alpha       = s_grid%dc / linear_max * 5
         n_c_local   = nint(log((delta/linear_max) + 1.) / alpha + 1)
         trcvel_grid = linear_grid + n_c_local
+
       else
-          write (6,'(a43,a10)') 'ERROR: No support for trace velocity grid: ', tele_local
+          write (6,'(a43,a10)') 'ERROR: No support for trace velocity grid: ', s_grid%tele_local
           call exit(-1)
       endif
 
-      bearing_grid   = nint((s_grid%bearing_max - s_grid%bearing_min ) / s_grid%dth) + 1
-      s_grid%n_beams = trcvel_grid*bearing_grid
+      s_grid%n_b     = nint((s_grid%bearing_max - s_grid%bearing_min ) / s_grid%dth) + 1
+      s_grid%n_c     = trcvel_grid
+      s_grid%n_beams = s_grid%n_b * s_grid%n_c
 
-      allocate(s_grid%px(s_grid%n_beams))
-      allocate(s_grid%py(s_grid%n_beams))
+      ! generate bearing and trace velocity grids
+      allocate(s_grid%bearing( s_grid%n_b ))
+      allocate(s_grid%trcvel ( s_grid%n_c ))
 
-      pi       = Acos(-1.)
       do i=1,trcvel_grid
-        if ( (tele_local == 'local') .and. (i .gt. linear_grid) ) then
+        if ( (s_grid%tele_local == 'local') .and. (i .gt. linear_grid) ) then
           c_tr  = linear_max * exp(alpha*(i-linear_grid))
+
         else
           c_tr  = s_grid%trcvel_min + s_grid%dc*(i-1)
+
         endif
-
-        do j=1,bearing_grid
-          theta = s_grid%bearing_min + s_grid%dth*(j-1)
-          p_vec = 1./c_tr
-          k     = (i-1)*bearing_grid + j
-          s_grid%px(k) = p_vec*sin((pi/180.0)*theta)
-          s_grid%py(k) = p_vec*cos((pi/180.0)*theta)
-        end do
+        s_grid%trcvel(i) = c_tr
       end do
-    endif
+      
+      do i=1,s_grid%n_b
+        s_grid%bearing(i) = s_grid%bearing_min + s_grid%dth*(i-1)
+      end do
 
+
+      ! generate indices to find the bearing and trace velocity from the beam number
+      allocate(s_grid%bi( s_grid%n_beams ))
+      allocate(s_grid%ci( s_grid%n_beams ))
+      ! generate slowness values just once
+      allocate(s_grid%px( s_grid%n_beams ))
+      allocate(s_grid%py( s_grid%n_beams ))
+
+      do i=1,s_grid%n_beams
+        call s_grid_1d_to_2d_index(s_grid%n_b,i,s_grid%bi(i),s_grid%ci(i))
+        call convert_to_slowness( s_grid%bearing(s_grid%bi(i)),   &
+  &                               s_grid%trcvel( s_grid%ci(i)),   &
+  &                               s_grid%px(i),  s_grid%py(i) )
+      end do
+
+    endif
   end subroutine
 
-  subroutine beamgrid_maximum(results,px,py,det_stat)
-   implicit none
+  subroutine s_grid_1d_to_2d_index(width_grid,k,bi,ci)
+   integer k, bi, ci, width_grid
+
+   bi = modulo((k-1),width_grid) + 1
+   ci = (k-1) / width_grid + 1
+  end subroutine
+
+
+  subroutine beamgrid_maximum(results,k_max)
    integer k_max, tmp(1)
-   double precision px, py, det_stat
-   double precision, allocatable, dimension (:,:) :: results
+   double precision, allocatable, dimension (:) :: results
    
-   tmp      = maxloc(results(:,1))
+   tmp      = maxloc(results(:))
    k_max    = tmp(1)
-   det_stat = results(k_max,1)
-   px       = results(k_max,2)
-   py       = results(k_max,3)
   end subroutine
 
 
   subroutine beamgrid(statistic,start_sample,srate,binsize,s_grid,n_instr,r,counts,results)
-    implicit none
     integer start_sample, binsize, k, n_instr
-    double precision  det_stat, px, py, srate
-    double precision, allocatable, dimension(:,:) :: r, counts, results
+    double precision  det_stat, srate, px, py
+    double precision, allocatable, dimension(:) :: results
+    double precision, allocatable, dimension(:,:) :: r, counts
     character(40) statistic
     type(Slowness) :: s_grid
    
@@ -174,13 +182,12 @@
       
       if (statistic .eq. 'fisher') then
         call compute_f_ratio(start_sample,binsize,n_instr,srate,counts,r,px,py,det_stat)
+      
       else if (statistic .eq. 'correlation') then
         call compute_mccm(start_sample,binsize,n_instr,srate,counts,r,px,py,det_stat)
       endif
 
-      results(k,1)  = det_stat
-      results(k,2)  = px
-      results(k,3)  = py
+      results(k) = det_stat
     end do
     !$omp end do
     !$omp end parallel
@@ -189,21 +196,16 @@
 
 
   subroutine compute_f_ratio(start_sample,binsize,n_instr,srate,counts,r,px,py,f_ratio)
-    implicit none
     integer start_sample, binsize, c, ss_c, es_c, n_instr
-    double precision f_dof, term_1, term_2, term_3, term_4, f_ratio
-    double precision px, py, srate
+    double precision f_dof, term_1, term_2, term_3, term_4, f_ratio, srate, px, py
 
     double precision, allocatable, dimension(:,:) :: r, counts
-    double precision, allocatable, dimension(:) :: sum_c, sum_c_sq
-
-    allocate(sum_c(binsize))
-    allocate(sum_c_sq(binsize))
+    double precision :: sum_c(binsize), sum_c_sq(binsize)
 
     f_dof = (1.*binsize*(n_instr-1))/(1.*n_instr*(binsize-1))
     sum_c(:) = 0.
     sum_c_sq(:) = 0.
-    
+
     do c=1,n_instr
       ss_c     = start_sample - nint(srate*(px*r(c,1) + py*r(c,2)))
       es_c     = ss_c + (binsize-1)
@@ -217,22 +219,18 @@
     term_4 = term_1 / n_instr
     f_ratio = f_dof*(term_1 - term_2)/(term_3 - term_4)
 
-    deallocate(sum_c)
-    deallocate(sum_c_sq)
   end subroutine
 
 
   subroutine compute_mccm(start_sample,binsize,n_instr,srate,counts,r,px,py,mccm)
-    implicit none
     integer start_sample, binsize, c, ss_c, es_c, n_instr
     double precision px, py, srate, mccm
 
     double precision, allocatable, dimension(:,:) :: r, counts
-    double precision, allocatable, dimension(:) :: sum_c
-
-    allocate(sum_c(binsize))
+    double precision :: sum_c(binsize)
 
     sum_c(:) = 0.
+
     do c=1,n_instr
       ss_c     = start_sample - nint(srate*(px*r(c,1) + py*r(c,2)))
       es_c     = ss_c + (binsize-1)
@@ -241,21 +239,21 @@
     sum_c = sum_c / n_instr
 
     mccm = maxval( sum_c )
-    deallocate(sum_c)
+
   end subroutine
 
 
   subroutine get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
-    implicit none
     integer binsize, n_instr, bin, start_sample, end_sample, overlap, c, ss_c, es_c
+    integer, parameter :: ndim = 1
     double precision prms, p2p, px, py
     double precision, allocatable, dimension (:,:) :: r, counts, bb, bestbeam
     type(Frequency) :: freq
     type(WFHeader) :: header
 
-    allocate(bb(binsize,1))
+    allocate(bb(binsize,ndim))
     
-    bb(1:binsize,1) = 0.
+    bb(1:binsize,1:ndim) = 0.
 
     do c=1,n_instr
       ss_c = start_sample - nint(header%srate*(px*r(c,1) + py*r(c,2)))
@@ -265,7 +263,7 @@
 
     bb = bb / n_instr
 
-    prms = sqrt( sum(bb**2)/size(bb) )
+    prms = sqrt(sum(bb(:,1)**2)/size(bb) )
     p2p = maxval(bb(:,1)) - minval(bb(:,1))
 
     ! Measures from Barnes et al., 1993, Geophysics
@@ -281,7 +279,6 @@
 
 
   subroutine get_XtX_matrices(coarray,n_pairs,XtX,XtXinv)
-   implicit none
    integer n_pairs, i
    double precision, allocatable, dimension(:,:) :: coarray, XtX, XtXinv
    double precision determinant
@@ -306,14 +303,13 @@
 
 
   subroutine get_cc_traces(counts_bin,binsize,fbinsize,zpd,srate,n_instr,cc_traces)
-   implicit none
-   integer i, j, n_instr, n_pairs, binsize, fbinsize, ndim, zpd
+   integer i, j, n_instr, n_pairs, binsize, fbinsize, zpd
+   integer, parameter :: ndim = 1
    double precision c_max, srate, t_max
    double precision, allocatable, dimension (:)   :: tau, c_wrap
    double precision, allocatable, dimension (:,:) :: counts_bin, s1, s2
    double precision, allocatable, dimension (:,:) :: cc_traces
 
-   ndim = 1
    allocate(s1(binsize,ndim))
    allocate(s2(binsize,ndim))
    allocate(tau(fbinsize))
@@ -338,6 +334,5 @@
    deallocate(c_wrap)
 
   end subroutine
-
 
   end module

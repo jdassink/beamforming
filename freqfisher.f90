@@ -6,68 +6,52 @@
   ! Date       : November 2010
 
   module fk_fisher
+  use string_utility
   use sa_array
   use sa_fourier
+  implicit none
 
-  ! Specific FK-Fisher analysis routines
   contains 
 
-  subroutine compute_freqfisher(freq,fr,df,n_instr,s_grid,r,ffisher_matrix,fisher_max,pxmax,pymax)
-    implicit none
-    integer n_instr, k, k_max, fr
-    double precision fisher_ratio, fisher_max, df
-    double precision px, py, pxmax, pymax
-    double precision e_w, e_wp_abs
-    double precision, allocatable, dimension (:,:) :: results
-    double complex, allocatable, dimension(:,:) :: ffisher_matrix
+  subroutine compute_freqfisher(freq,fr,df,n_instr,s_grid,r,ffisher_matrix,results)
+    integer n_instr, k, fr
+    double precision fisher_ratio, df, px, py, e_w, e_wp_abs
+    double precision, allocatable, dimension (:) :: results
     double precision, allocatable, dimension (:,:) :: r
+    double complex, allocatable, dimension(:,:) :: ffisher_matrix
 
     type(Slowness) :: s_grid
     type(Frequency) :: freq
-
-    allocate(results(s_grid%n_beams,3))
 
     !$omp  parallel &
     !$omp& default(private) &
     !$omp& shared(r,results,s_grid,n_instr,ffisher_matrix, freq, fr, df)
     !$omp do
     do k=1,s_grid%n_beams
-     px = s_grid%px(k)
-     py = s_grid%py(k)
+      px = s_grid%px(k)
+      py = s_grid%py(k)
+      call compute_fk_terms(n_instr,px,py,r,freq,fr,df,ffisher_matrix,e_wp_abs,e_w)
 
-     call compute_fk_terms(n_instr,px,py,r,freq,fr,df,ffisher_matrix,e_wp_abs,e_w)
+      fisher_ratio = ( e_wp_abs / (e_w-e_wp_abs) ) * (n_instr-1)
+      results(k) = fisher_ratio
 
-     fisher_ratio = ( e_wp_abs / (e_w-e_wp_abs) ) * (n_instr-1)
-
-     results(k,1)  = fisher_ratio
-     results(k,2)  = px
-     results(k,3)  = py
     end do
     !$omp end do 
     !$omp end parallel
 
-    k_max       = maxloc(results(:,1),1)
-    fisher_max  = results(k_max,1)
-    pxmax       = results(k_max,2)
-    pymax       = results(k_max,3)
-    deallocate(results)
   end subroutine
 
   subroutine compute_fk_terms(n_instr,px,py,r,freq,fri,df,ffm,e_wp_abs,e_w)
     ! Calculates the sums of E(omega) and E(omega,p)
     ! Optionally, estimates of E(omega) and E(omega,p) are averaged over frequency
-    implicit none
     integer n_instr, fri, fr, frs, fre, instr, dfr, frcnt
-    double precision px, py, omega, pi, df
+    double precision px, py, omega, df
     double precision e_w, dt, e_wp_abs
-    double complex e_wp, im
+    double complex e_wp
     double complex, allocatable, dimension(:,:) :: ffm
     double precision, allocatable, dimension (:,:) :: r
     
     type(Frequency) :: freq
-
-    pi    = Acos(-1.)
-    im    = dcmplx(0.,1.)
 
     dfr = nint(freq%f_step/df)     
     frs = fri
@@ -98,12 +82,11 @@
     e_w = ( e_w / n_instr ) / frcnt
   end subroutine
 
-  subroutine get_cmd_parameters(n_instr,r,tbinsize,overlap,freq,s_grid,tele_local,file_format,timeseries)
-    implicit none
+  subroutine get_cmd_parameters(n_instr,r,tbinsize,overlap,freq,s_grid,file_format,timeseries)
     integer i, n_instr, eof, overlap, iargc
     double precision tbinsize
     character(40), allocatable, dimension (:) :: timeseries
-    character(40) coordinates, dummy, file_format, tele_local
+    character(40) coordinates, dummy, file_format
     double precision, allocatable, dimension(:,:) :: r
 
     type(Slowness) :: s_grid
@@ -146,8 +129,10 @@
     call getarg(13, dummy)
     read(dummy,*) s_grid%dc
     call getarg(14, dummy)
-    read(dummy,*) tele_local
+    dummy = StrLowCase(dummy)
+    read(dummy,*) s_grid%tele_local
     call getarg(15, dummy)
+    dummy = StrLowCase(dummy)
     read(dummy,*) file_format
     i = 1
     do while ( i < n_instr+1 )
@@ -222,15 +207,16 @@
     use fk_fisher
     implicit none
 
-    integer   fr, n_instr, fr_min, fr_max, dfr, alloc_instr, alloc_samples
+    integer   fr, n_instr, fr_min, fr_max, dfr, alloc_instr, alloc_samples, k
     integer   binsize, fbinsize, bin, n_bins, overlap, start_sample, end_sample
-    double precision tbinsize, fisher, pi, bearing, trcvel
+    double precision tbinsize, fisher, bearing, trcvel
     double precision px, py, time, df, e_w, e_wp_abs
 
+    double precision, allocatable, dimension(:) :: results
     double precision, allocatable, dimension(:,:) :: r, counts, counts_bin
     double complex, allocatable, dimension(:,:) :: ffisher_matrix
     character(40), allocatable, dimension (:) :: timeseries
-    character(40) file_format, tele_local
+    character(40) file_format
 
     type(Slowness)  :: s_grid
     type(Frequency) :: freq
@@ -239,15 +225,15 @@
     alloc_instr = 50
     alloc_samples = 2*24*3600*250
 
-    pi          = Acos(-1.)
-    allocate(r(alloc_instr,3))
+    allocate(r(alloc_instr,5))
     allocate(timeseries(alloc_instr))
 
-    call get_cmd_parameters(n_instr,r,tbinsize,overlap,freq,s_grid,tele_local,file_format,timeseries)
-    call span_slowness_grid(s_grid,tele_local)
+    call get_cmd_parameters(n_instr,r,tbinsize,overlap,freq,s_grid,file_format,timeseries)
+    call span_slowness_grid(s_grid)
 
     allocate(counts(alloc_samples,n_instr))
-
+    allocate(results(s_grid%n_beams))
+    
     write(6,*) ' '
     write(6,*) ' '
     write(6,*) 'Reading files ...'
@@ -319,14 +305,18 @@
       call window_data(n_instr,binsize,counts_bin)
       call compute_dft_1d(n_instr,fbinsize,counts_bin,ffisher_matrix)
 
+      ! Scale FFTW result appropriately for positive frequencies and binsize
+      ffisher_matrix = 2*ffisher_matrix / binsize
+
       fr = fr_min
       do while ( ( fr + dfr*freq%smoother - 1 ) < fr_max )
-        
-        call compute_freqfisher(freq,fr,df,n_instr,s_grid,r,ffisher_matrix,fisher,px,py)
-        call convert_slowness(px,py,bearing,trcvel)
+        call compute_freqfisher(freq,fr,df,n_instr,s_grid,r,ffisher_matrix,results)
+        call beamgrid_maximum(results,k)
+        px = s_grid%px(k)
+        py = s_grid%py(k)
         call compute_fk_terms(n_instr,px,py,r,freq,fr,df,ffisher_matrix,e_wp_abs,e_w)
 
-        write(30,99) time, freq%average, fisher, bearing, trcvel, n_instr, e_wp_abs
+        write(30,99) time, freq%average, results(k), s_grid%bearing(s_grid%bi(k)), s_grid%trcvel(s_grid%ci(k)), n_instr, e_wp_abs
         99 format(f10.2, 1x, f10.5, 1x, f15.2, 1x, f9.2, 1x, f9.2, 1x, i2, 1x, e15.8)
 
         fr = fr + dfr*freq%smoother
@@ -337,11 +327,16 @@
     close (unit=30)
 
     deallocate(r)
-    deallocate(counts)
-    deallocate(counts_bin)
+    deallocate(s_grid%bearing)
+    deallocate(s_grid%trcvel)
+    deallocate(s_grid%bi)
+    deallocate(s_grid%ci)
     deallocate(s_grid%px)
     deallocate(s_grid%py)
+    deallocate(counts)
+    deallocate(counts_bin)
     deallocate(ffisher_matrix)
+    deallocate(results)
     deallocate(timeseries)
 
   end program freqfisher

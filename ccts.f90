@@ -6,16 +6,17 @@
   ! Date       : November 2010
  
   module mod_ccts
+  use string_utility
   use sa_array
+  implicit none
 
   contains 
 
-  subroutine get_cmd_parameters(n_instr,tbinsize,overlap,oversampling,s_grid,r,tele_local,max_all,file_format,timeseries)
-    implicit none
+  subroutine get_cmd_parameters(n_instr,tbinsize,overlap,oversampling,s_grid,r,file_format,timeseries)
     integer i, n_instr, eof, overlap, iargc, oversampling
     double precision tbinsize
     character(40), allocatable, dimension (:) :: timeseries
-    character(40) coordinates, file_format, tele_local, max_all, dummy
+    character(40) coordinates, file_format, dummy
     double precision, allocatable, dimension(:,:) :: r
 
     type(Slowness) :: s_grid
@@ -51,10 +52,13 @@
     call getarg(10, dummy)
     read(dummy,*) s_grid%dc
     call getarg(11, dummy)
-    read(dummy,*) tele_local
+    dummy = StrLowCase(dummy)
+    read(dummy,*) s_grid%tele_local
     call getarg(12, dummy)
-    read(dummy,*) max_all
+    dummy = StrLowCase(dummy)
+    read(dummy,*) s_grid%max_all
     call getarg(13, dummy)
+    dummy = StrLowCase(dummy)
     read(dummy,*) file_format
     i = 1
     do while ( i < n_instr+1 )
@@ -140,29 +144,29 @@
     integer   binsize, fbinsize, i, n_pairs, oversampling, zpd
     double precision tbinsize, fisher, mccm, px, py, bearing, trcvel, prms, p2p, time, fsrate
 
-
     type(Slowness) :: s_grid
     type(Frequency) :: freq
     type(WFHeader) :: header
 
-    double precision, allocatable, dimension(:,:) :: r, counts, counts_bin, bestbeam, results
+    double precision, allocatable, dimension(:) :: results
+    double precision, allocatable, dimension(:,:) :: r, counts, counts_bin, bestbeam
     double precision, allocatable, dimension(:,:) :: coarray, cc_traces
     character(40), allocatable, dimension (:) :: timeseries
-    character(40) file_format, tele_local, max_all, fid_beam, statistic
+    character(40) file_format, fid_beam, statistic
 
     statistic = 'fisher'
     alloc_instr = 50
     alloc_samples = 2*24*3600*250
 
     allocate(timeseries(alloc_instr))
-    allocate(r(alloc_instr,3))
+    allocate(r(alloc_instr,5))
 
-    call get_cmd_parameters(n_instr,tbinsize,overlap,oversampling,s_grid,r,tele_local,max_all,file_format,timeseries)
-    call span_slowness_grid(s_grid,tele_local)
+    call get_cmd_parameters(n_instr,tbinsize,overlap,oversampling,s_grid,r,file_format,timeseries)
+    call span_slowness_grid(s_grid)
 
     allocate(counts(alloc_samples,n_instr))
     allocate(bestbeam(alloc_samples,1))
-    allocate(results(s_grid%n_beams,3))
+    allocate(results(s_grid%n_beams))
 
     write(6,*) ' '
     write(6,*) ' '
@@ -211,7 +215,7 @@
     write(6,'(a32,f8.2,a3,f8.2,a6)') ' Trace velocity domain : [ ', s_grid%trcvel_min, ' - ', s_grid%trcvel_max, ' ] m/s'
     write(6,'(a32,f8.2,a3,f8.2,a6)') ' Bearing domain : [ ', s_grid%bearing_min, ' - ', s_grid%bearing_max, ' ] deg'
     write(6,*) ''
-    write(6,'(a32,a3)') ' Output type : ', max_all
+    write(6,'(a32,a3)') ' Output type : ', s_grid%max_all
 
     open (unit=30, file='ccts.dat')
     fid_beam = 'bestbeam.sac'
@@ -232,32 +236,29 @@
 
       call beamgrid(statistic,zpd+1,fsrate,fbinsize,s_grid,n_pairs,coarray,cc_traces,results)
 
-      if (max_all == 'max') then
-       call beamgrid_maximum(results,px,py,mccm)
-       call convert_slowness(px,py,bearing,trcvel)
-       call compute_f_ratio(start_sample,binsize,n_instr,header%srate,counts,r,px,py,fisher)
-       call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
+      if (s_grid%max_all == 'max') then
+        call beamgrid_maximum(results,k)
+        px = s_grid%px(k)
+        py = s_grid%py(k)
 
-       write (30,98) time, mccm, bearing, trcvel, px, py, prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms, fisher
-       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, e15.8, 1x, i2, &
-&                                                                  1x, f8.3, 1x, f8.3, 1x, f8.3, 1x, f10.2 )
+        call compute_f_ratio(start_sample,binsize,n_instr,header%srate,counts,r,px,py,fisher)
+        call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
 
-      elseif (max_all == 'all') then
-       do k=1,s_grid%n_beams
-        mccm = results(k,1)
-        px = results(k,2)
-        py = results(k,3)
-        call convert_slowness(px,py,bearing,trcvel)
-        !call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,freq)
+        write (30,98) time, results(k), s_grid%bearing(s_grid%bi(k)), s_grid%trcvel(s_grid%ci(k)), px, py,  &
+  &                        prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms, fisher
+        98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x,   &
+  &                        e15.8, 1x, e15.8, 1x, i2, 1x, f8.3, 1x, f8.3, 1x, f8.3, 1x, f10.2)
 
-        write (30,99) time, mccm, bearing, trcvel, px, py, n_instr
-        99 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, i2)
-       end do
-       write (30,*) ''
+      elseif (s_grid%max_all == 'all') then
+        do k=1,s_grid%n_beams
+          write (30,99) time, results(k), s_grid%bearing(s_grid%bi(k)), s_grid%trcvel(s_grid%ci(k)), n_instr
+          99 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, i2)
+        end do
+        write (30,*) ''
       endif
     end do
 
-    if (max_all == 'max') then
+    if (s_grid%max_all == 'max') then
      call write_sac(fid_beam,header,bestbeam)
     endif
 
@@ -267,8 +268,10 @@
     deallocate(timeseries)
     deallocate(counts)
     deallocate(coarray)
-    deallocate(s_grid%px)
-    deallocate(s_grid%py)
+    deallocate(s_grid%bearing)
+    deallocate(s_grid%trcvel)
+    deallocate(s_grid%bi)
+    deallocate(s_grid%ci)
     deallocate(cc_traces)
     deallocate(counts_bin)
     deallocate(bestbeam)

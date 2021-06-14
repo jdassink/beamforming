@@ -1,0 +1,93 @@
+FORTRAN=intel
+DEBUG=false
+CPU=native
+# intel 
+INCLUDE=-I/opt/intel_compiled/include
+LIB_INC=-L/opt/intel_compiled/lib
+#CPU=native
+#INCLUDE=-I/usr/include
+#LIB_INC=-L/usr/lib64
+F90SAC = f90sac.o f90sac_csubs.o
+#OMPPATH = /opt/intel/compilers_and_libraries_2020/mac/lib
+OMPPATH = /opt/intel/oneapi/compiler/latest/mac/compiler/lib
+
+# --------------------- don't touch this -------------------------------#
+
+FFTLIB=-lfftw3 -lm
+NCLIB=-lnetcdff -lnetcdf
+
+ifeq ($(FORTRAN),gnu)
+        FC=gfortran
+        CC=gcc
+        ifeq ($(DEBUG),true)
+        	FFLAGS =-g -fbounds-check -Wall -fbacktrace -finit-real=nan $(INCLUDE)
+        else
+        	FFLAGS=-m64 -march=$(CPU) -O3 $(INCLUDE) -fopenmp
+        endif
+endif
+
+ifeq ($(FORTRAN),intel)
+        FC=ifort
+        CC=icc
+        ifeq ($(DEBUG),true)
+		FFLAGS=-g -traceback -O0 -check bounds -warn all -debug extended -save-temps $(INCLUDE)
+        else
+        	FFLAGS=-m64 -Ofast $(INCLUDE) -qopenmp
+        	CFLAGS=-m64 -Ofast $(INCLUDE)
+        endif
+endif
+
+ifeq ($(FORTRAN),portland)
+        FC=pgf95
+        CC=pgcc
+        ifeq ($(DEBUG),true)
+        	FFLAGS=-g -m64 -traceback -Mbounds $(INCLUDE)
+        else
+        	FFLAGS=-m64 -O3 -fastsse $(INCLUDE) -mp
+        endif
+endif
+
+
+%.o : %.c
+	$(CC) -c $(CFLAGS) $<
+
+%.o : %.f90
+	$(FC) -c $(FFLAGS) $<
+
+%.o : %.F90
+	$(FC) -c $(FFLAGS) $<
+
+OBJECTS = string_utility.o sa_io.o sa_math.o sa_fourier.o sa_array.o
+
+all: tfreqfisher freqfisher timefisher timefisherCDF tdoa tdoa_test ccts
+
+ccts: ${F90SAC} ${OBJECTS} ccts.o
+		$(FC) ${F90SAC} ${OBJECTS} ccts.o \
+		$(FFLAGS) -o ccts $(LIB_INC) $(FFTLIB)
+
+tdoa_test: ${OBJECTS} tdoa_test.o
+		$(FC) sa_math.o tdoa_test.o \
+		$(FFLAGS) -o tdoa_test
+
+tdoa: ${F90SAC} ${OBJECTS} tdoa.o
+		$(FC) ${F90SAC} ${OBJECTS} tdoa.o \
+		$(FFLAGS) -o tdoa $(LIB_INC) $(FFTLIB)
+
+timefisher: ${F90SAC} ${OBJECTS} timefisher.o
+		$(FC) ${F90SAC} ${OBJECTS} timefisher.o \
+		$(FFLAGS) -o timefisher $(LIB_INC) $(FFTLIB)
+
+timefisherCDF: ${F90SAC} ${OBJECTS} timefisherCDF.o
+		$(FC) ${F90SAC} ${OBJECTS} timefisherCDF.o \
+		$(FFLAGS) -o timefisherCDF $(LIB_INC) $(FFTLIB) $(NCLIB)
+
+freqfisher: ${F90SAC} ${OBJECTS} freqfisher.o
+		$(FC) ${F90SAC} ${OBJECTS} freqfisher.o \
+		$(FFLAGS) -o freqfisher $(LIB_INC) $(FFTLIB)
+
+tfreqfisher: ${F90SAC} ${OBJECTS} tfreqfisher.o
+		$(FC) ${F90SAC} ${OBJECTS} tfreqfisher.o \
+		$(FFLAGS) -o tfreqfisher $(LIB_INC) $(FFTLIB)
+
+clean:
+	rm -rf *.o *.mod *.i90 tfreqfisher freqfisher timefisher timefisherCDF tdoa tdoa_test ccts

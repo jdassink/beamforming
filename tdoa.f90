@@ -12,11 +12,11 @@
  
   module mod_tdoa
   use sa_array
-
+  implicit none
+  
   contains 
 
   subroutine get_timelags(counts_bin,binsize,fbinsize,srate,n_instr,dt,correlation)
-   implicit none
    integer i, j, n_instr, n_pairs, binsize, fbinsize, ndim
    double precision c_max, srate, t_max
    double precision, allocatable, dimension (:)   :: dt, correlation
@@ -50,7 +50,6 @@
   end subroutine
 
   subroutine estimate_slowness(XtXinv,coarray,n_pairs,dt,px,py,error)
-   implicit none
    integer n_pairs, j
    double precision px, py, error, Xf
    double precision, allocatable, dimension(:,:) :: XtXinv, coarray
@@ -85,7 +84,6 @@
   end subroutine
   
   subroutine estimate_sigma_Q(n_pairs,coarray,XtXinv,srate,error,sigma,Q)
-   implicit none
    integer i, j, n_pairs
    double precision srate, error, sigma, Q, trc_R
    double precision, allocatable, dimension(:,:) :: coarray, XtXinv, Rmat
@@ -107,10 +105,9 @@
    deallocate(Rmat)
   end subroutine
 
-  subroutine compute_uncertainty_params(XtX,pi,lambda_x,lambda_y,angle)
-   implicit none
+  subroutine compute_uncertainty_params(XtX,lambda_x,lambda_y,angle)
    integer nrot
-   double precision lambda_x,lambda_y, angle, pi
+   double precision lambda_x,lambda_y, angle
    double precision, allocatable, dimension(:,:) :: a, XtX, v
    double precision, allocatable, dimension(:) :: d
  
@@ -127,11 +124,10 @@
    deallocate(a)
   end subroutine
 
-  subroutine compute_uncertainties(pi,sigma,lambda_x,lambda_y,angle,px,py,vel_dev,bear_dev)
-   implicit none
+  subroutine compute_uncertainties(sigma,lambda_x,lambda_y,angle,px,py,vel_dev,bear_dev)
    integer i, j, n, imax, jmax
    double precision lambda_x, lambda_y, angle, px, py, vel_dev, bear_dev, sigma
-   double precision dchi2, term1, term2, px_min, px_max, tmp, pi, dx, dy
+   double precision dchi2, term1, term2, px_min, px_max, tmp, dx, dy
    double precision dmax, phmax, d, ph
    double precision, allocatable, dimension (:) :: px_, py_
 
@@ -197,7 +193,6 @@
 
 
   subroutine get_cmd_parameters(n_instr,tbinsize,overlap,oversampling,r,file_format,timeseries)
-    implicit none
     integer i, n_instr, eof, overlap, iargc, oversampling
     double precision tbinsize
     character(40), allocatable, dimension (:) :: timeseries
@@ -303,7 +298,7 @@
 
     integer   i, n_instr, alloc_instr, alloc_samples, n_pairs
     integer   binsize, fbinsize, bin, n_bins, overlap, start_sample, end_sample, oversampling
-    double precision tbinsize, fisher, px, py, bearing, velocity, pi, mccm
+    double precision tbinsize, fisher, px, py, bearing, velocity, mccm
     double precision error, sigma, Q, lambda_x, lambda_y, angle
     double precision vel_dev, bear_dev, prms, p2p, time, fsrate
     character(40) file_format, fid_beam
@@ -311,6 +306,7 @@
     double precision, allocatable, dimension(:,:) :: r, counts, counts_bin, bestbeam
     double precision, allocatable, dimension(:,:) :: coarray, XtX, XtXinv
     double precision, allocatable, dimension(:)   :: dt, c
+
     character(40), allocatable, dimension (:)     :: timeseries
 
     type(Frequency) :: freq
@@ -318,10 +314,9 @@
 
     alloc_instr = 50
     alloc_samples = 2*24*3600*250
-    pi = Acos(-1.)
 
     allocate(timeseries(alloc_instr))
-    allocate(r(alloc_instr,3))
+    allocate(r(alloc_instr,5))
     call get_cmd_parameters(n_instr,tbinsize,overlap,oversampling,r,file_format,timeseries)
 
     allocate(counts(alloc_samples,n_instr))
@@ -371,7 +366,7 @@
 
     call get_co_array(r,n_instr,coarray)
     call get_XtX_matrices(coarray,n_pairs,XtX,XtXinv)
-    call compute_uncertainty_params(XtX,pi,lambda_x,lambda_y,angle)
+    call compute_uncertainty_params(XtX,lambda_x,lambda_y,angle)
 
     overlap = binsize - binsize*overlap/100.
     n_bins = (binsize/overlap)*(header%n_samples/binsize)
@@ -388,7 +383,7 @@
    
       call estimate_slowness(XtXinv,coarray,n_pairs,dt,px,py,error)   
       call estimate_sigma_Q(n_pairs,coarray,XtXinv,header%srate,error,sigma,Q)
-      call compute_uncertainties(pi,sigma,lambda_x,lambda_y,angle,px,py,vel_dev,bear_dev)
+      call compute_uncertainties(sigma,lambda_x,lambda_y,angle,px,py,vel_dev,bear_dev)
 
       call compute_f_ratio(start_sample,binsize,n_instr,header%srate,counts,r,px,py,fisher)
       call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)

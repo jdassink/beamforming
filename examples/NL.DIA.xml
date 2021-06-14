@@ -1,0 +1,1966 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" schemaVersion="1.1">
+  <Source>Royal Netherlands Meteorological Institute</Source>
+  <Sender>KNMI</Sender>
+  <Module>ObsPy 1.1.1rc1.post0+355.g7016d5b355.obspy.master</Module>
+  <ModuleURI>https://www.obspy.org</ModuleURI>
+  <Created>2018-08-21T19:09:22.117667Z</Created>
+  <Network code="NL" startDate="1993-01-01T00:00:00.000000Z" restrictedStatus="open">
+    <Description>Netherlands Seismic and Acoustic Network</Description>
+    <Station code="DL01" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.06011</Latitude>
+      <Longitude unit="DEGREES">5.8873</Longitude>
+      <Elevation unit="METERS">52.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.06011</Latitude>
+        <Longitude unit="DEGREES">5.8873</Longitude>
+        <Elevation unit="METERS">52.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL01">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL01">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL01">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL02" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.059</Latitude>
+      <Longitude unit="DEGREES">5.89083</Longitude>
+      <Elevation unit="METERS">53.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.059</Latitude>
+        <Longitude unit="DEGREES">5.89083</Longitude>
+        <Elevation unit="METERS">53.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL02">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL02">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL02">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL03" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.0576</Latitude>
+      <Longitude unit="DEGREES">5.89234</Longitude>
+      <Elevation unit="METERS">52.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.0576</Latitude>
+        <Longitude unit="DEGREES">5.89234</Longitude>
+        <Elevation unit="METERS">52.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL03">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL03">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL03">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL04" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.04947</Latitude>
+      <Longitude unit="DEGREES">5.8848</Longitude>
+      <Elevation unit="METERS">47.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.04947</Latitude>
+        <Longitude unit="DEGREES">5.8848</Longitude>
+        <Elevation unit="METERS">47.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL04">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL04">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL04">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL05" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.04948</Latitude>
+      <Longitude unit="DEGREES">5.88167</Longitude>
+      <Elevation unit="METERS">45.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.04948</Latitude>
+        <Longitude unit="DEGREES">5.88167</Longitude>
+        <Elevation unit="METERS">45.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL05">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL05">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL05">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL06" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.04949</Latitude>
+      <Longitude unit="DEGREES">5.87881</Longitude>
+      <Elevation unit="METERS">44.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.04949</Latitude>
+        <Longitude unit="DEGREES">5.87881</Longitude>
+        <Elevation unit="METERS">44.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL06">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL06">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL06">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL07" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05731</Latitude>
+      <Longitude unit="DEGREES">5.87115</Longitude>
+      <Elevation unit="METERS">45.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05731</Latitude>
+        <Longitude unit="DEGREES">5.87115</Longitude>
+        <Elevation unit="METERS">45.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL07">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL07">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL07">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL08" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05893</Latitude>
+      <Longitude unit="DEGREES">5.87199</Longitude>
+      <Elevation unit="METERS">45.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05893</Latitude>
+        <Longitude unit="DEGREES">5.87199</Longitude>
+        <Elevation unit="METERS">45.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL08">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL08">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL08">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL09" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.06102</Latitude>
+      <Longitude unit="DEGREES">5.87312</Longitude>
+      <Elevation unit="METERS">46.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.06102</Latitude>
+        <Longitude unit="DEGREES">5.87312</Longitude>
+        <Elevation unit="METERS">46.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL09">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL09">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL09">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL10" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.0559</Latitude>
+      <Longitude unit="DEGREES">5.88635</Longitude>
+      <Elevation unit="METERS">49.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.0559</Latitude>
+        <Longitude unit="DEGREES">5.88635</Longitude>
+        <Elevation unit="METERS">49.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL10">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL10">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL10">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL11" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05383</Latitude>
+      <Longitude unit="DEGREES">5.89059</Longitude>
+      <Elevation unit="METERS">48.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05383</Latitude>
+        <Longitude unit="DEGREES">5.89059</Longitude>
+        <Elevation unit="METERS">48.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL11">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL11">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL11">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL12" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05795</Latitude>
+      <Longitude unit="DEGREES">5.88008</Longitude>
+      <Elevation unit="METERS">46.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05795</Latitude>
+        <Longitude unit="DEGREES">5.88008</Longitude>
+        <Elevation unit="METERS">46.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL12">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL12">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL12">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL13" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05933</Latitude>
+      <Longitude unit="DEGREES">5.87648</Longitude>
+      <Elevation unit="METERS">47.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05933</Latitude>
+        <Longitude unit="DEGREES">5.87648</Longitude>
+        <Elevation unit="METERS">47.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL13">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL13">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL13">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL14" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05514</Latitude>
+      <Longitude unit="DEGREES">5.88275</Longitude>
+      <Elevation unit="METERS">49.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05514</Latitude>
+        <Longitude unit="DEGREES">5.88275</Longitude>
+        <Elevation unit="METERS">49.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL14">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL14">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL14">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL15" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.05494</Latitude>
+      <Longitude unit="DEGREES">5.87119</Longitude>
+      <Elevation unit="METERS">44.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.05494</Latitude>
+        <Longitude unit="DEGREES">5.87119</Longitude>
+        <Elevation unit="METERS">44.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL15">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL15">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL15">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL16" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.06214</Latitude>
+      <Longitude unit="DEGREES">5.88354</Longitude>
+      <Elevation unit="METERS">49.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.06214</Latitude>
+        <Longitude unit="DEGREES">5.88354</Longitude>
+        <Elevation unit="METERS">49.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL16">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL16">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL16">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="DL17" startDate="1999-07-01T00:00:00.000000Z" restrictedStatus="open" alternateCode="DIA">
+      <Latitude unit="DEGREES">52.06005</Latitude>
+      <Longitude unit="DEGREES">5.88747</Longitude>
+      <Elevation unit="METERS">49.0</Elevation>
+      <Site>
+        <Name>Deelen Infrasound Array</Name>
+        <Description>Deelen Infrasound Array</Description>
+        <Town>Deelen</Town>
+        <Country>The Netherlands</Country>
+      </Site>
+      <Vault>-1.0</Vault>
+      <CreationDate>1999-07-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BDF" startDate="2000-01-01T00:00:00.000000Z" endDate="2010-01-01T00:00:00.000000Z" locationCode="">
+        <Description>Microbarometric pressure</Description>
+        <Latitude unit="DEGREES">52.06005</Latitude>
+        <Longitude unit="DEGREES">5.88747</Longitude>
+        <Elevation unit="METERS">49.0</Elevation>
+        <Depth unit="METERS">-1.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">40.0</SampleRate>
+        <CalibrationUnits>
+          <Name>PA</Name>
+          <Description>Pascals</Description>
+        </CalibrationUnits>
+        <Sensor resourceId="Sensor#20000101000000.DL17">
+          <Type>KNMI-mb</Type>
+          <Description>KNMI microbarometer</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>500s</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20000101000000.DL17">
+          <Type>KNMI pc datalogger</Type>
+          <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+          <Manufacturer>KNMI</Manufacturer>
+          <Model>Infrasound array</Model>
+          <InstallationDate>2000-01-01T00:00:00.000000Z</InstallationDate>
+          <RemovalDate>2010-01-01T00:00:00.000000Z</RemovalDate>
+          <CalibrationDate>2000-01-01T00:00:00.000000Z</CalibrationDate>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>232.032864865</Value>
+            <Frequency>1.0</Frequency>
+            <InputUnits>
+              <Name>PA</Name>
+              <Description>Pascals</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name>COUNTS</Name>
+              <Description>Counts</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+          <Stage number="1">
+            <PolesZeros resourceId="ResponsePAZ#20000101000000.DL17">
+              <InputUnits>
+                <Name>PA</Name>
+                <Description>PA</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </OutputUnits>
+              <PzTransferFunctionType>LAPLACE (RADIANS/SECOND)</PzTransferFunctionType>
+              <NormalizationFactor>106.999767595</NormalizationFactor>
+              <NormalizationFrequency unit="HERTZ">1.0</NormalizationFrequency>
+              <Zero number="0">
+                <Real>0.0</Real>
+                <Imaginary>0.0</Imaginary>
+              </Zero>
+              <Pole number="0">
+                <Real>-0.0268559442484</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+              <Pole number="1">
+                <Real>-106.814150222</Real>
+                <Imaginary>0.0</Imaginary>
+              </Pole>
+            </PolesZeros>
+            <StageGain>
+              <Value>0.0177027027027</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+          <Stage number="2">
+            <Coefficients>
+              <Description>Linux kernel 2.4, comedi.org drivers, Meinberg GPS167+GPS170, National Instruments 6034E 16-bit ADC card</Description>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>COUNTS</Name>
+                <Description>Counts</Description>
+              </OutputUnits>
+              <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+            </Coefficients>
+            <Decimation>
+              <InputSampleRate unit="HERTZ">40.0</InputSampleRate>
+              <Factor>1</Factor>
+              <Offset>0</Offset>
+              <Delay>0.0</Delay>
+              <Correction>0.0</Correction>
+            </Decimation>
+            <StageGain>
+              <Value>13107.2</Value>
+              <Frequency>1.0</Frequency>
+            </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+  </Network>
+</FDSNStationXML>
