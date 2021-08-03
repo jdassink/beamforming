@@ -23,8 +23,8 @@ import numpy as np
 
 from obspy import UTCDateTime, read_inventory, Stream
 # from obspy.signal.filter import envelope
-from wave_data_interface import get_data, select_inventory
-from wave_data_interface import inv_to_df, df_to_ascii, get_gain
+from waveforms.waveform import get_data
+from waveforms.metadata import select_inventory, inv_to_df, df_to_ascii, get_gain
 
 bf_methods = ['ccts', 'freqfisher', 'tdoa', 'timefisher', 'tfreqfisher']
 
@@ -36,7 +36,7 @@ def main(argv):
     print ('')
     # Get command line parameters
     proc = process_cli(argv)
-    inv = read_inventory(proc.inventory)
+    inv = get_inventory(proc)
 
     # Get waveform data
     data_source = dict(local=proc.data_root)
@@ -97,15 +97,14 @@ def array_processing(st, proc, verbose=False):
 
     elif proc.method == 'tdoa':
         print (' - Time Delay of Arrival (TDOA) analysis...')
-        oversampling = 1
         cmd  = f'{proc.method} {stationtable} ' \
         f'{proc.binsize} {proc.overlap} ' \
-        f'{oversampling} sac {data_files}'
+        f'{proc.tdoa_interpolation} sac {data_files}'
 
     elif proc.method == 'tfreqfisher':
         print (' - FK+ Fisher analysis...')
         td_file = '{}_{}.dat'.format(proc.timedomain_detector_method,
-                                     proc.starttime.strftime('%Y%m%d'))
+                                     int(proc.starttime.timestamp))
         shutil.copyfile(td_file, 'timefisher.dat')
         cmd  = f'{proc.method} {stationtable} ' \
                f'{proc.binsize} {proc.overlap} ' \
@@ -126,13 +125,12 @@ def array_processing(st, proc, verbose=False):
     os.system(cmd)
 
     processor_output = f'{proc.method}.dat'
-    timestamp = proc.starttime.strftime('%Y%m%d')
     results_file = '{}_{}.dat'.format(proc.method,
-                                      timestamp)
+                                      int(proc.starttime.timestamp))
     print (' - Writing output to [ %s ]' % results_file)
     os.rename(processor_output, results_file)
     try:
-        bestbeam_file = 'bestbeam_{}.sac'.format(timestamp)
+        bestbeam_file = 'bestbeam_{}.sac'.format(int(proc.starttime.timestamp))
         os.rename('bestbeam.sac', bestbeam_file)
     except:
         pass
@@ -160,6 +158,19 @@ def export_datafiles(st):
         tr.write(fid, 'SAC')
         data_files.append(fid)
     return data_files
+
+def get_inventory(proc):
+    """
+    Return inventory, excluding the channels to be skipped
+    """
+    inv = read_inventory(proc.inventory)
+    try:
+        for item in proc.skip_elements:
+            (net, sta, loc, cha) = item.split('.')
+            inv = inv.remove(network=net, station=sta, location=loc, channel=cha)
+    except:
+        pass
+    return inv
 
 def export_stationtable(proc):
     """
@@ -213,7 +224,7 @@ def prepare_data(st, proc):
             for tr in stt:
                 fs = tr.stats.sampling_rate
                 if  fs != proc.sampling_rate:
-                    tr.interpolate(proc.sampling_rate)
+                    tr.interpolate(proc.sampling_rate, method='linear')
     return stt
 
 def trim_stream(st, proc):
@@ -227,7 +238,7 @@ def trim_stream(st, proc):
     return stt
 
 def comma_list(s):
-    return s.split(',')
+    return [ item.strip() for item in s.split(',') ]
 
 def parameter_list(s):
     return list(map(float, s.split('/')))
@@ -281,7 +292,7 @@ def process_cli(argv):
         )
     parser.add_argument('-el','--skip_elements',
         nargs='?', type=comma_list,
-        metavar='Stations to skip: <NET.STA.LOC.CHAN>, <NET.STA.LOC.CHAN>'
+        metavar='Stations to skip: <NET.STA.LOC.CHAN>,<NET.STA.LOC.CHAN>'
         )
     parser.add_argument('-decon', '--deconvolution',
         nargs='?', type=str, choices=['gain','response']
@@ -289,6 +300,10 @@ def process_cli(argv):
     parser.add_argument('-fs', '--sampling_rate',
         nargs='?', type=float,
         metavar='Sample rate of processing (Hz)'
+        )
+    parser.add_argument('-ti', '--tdoa_interpolation',
+        nargs='?', type=int, default=1,
+        metavar='Interpolation factor of cross-correlation function for TDOA'
         )
     parser.add_argument('-tdm', '--timedomain_detector_method',
         nargs='?', type=str, choices=['ccts', 'tdoa', 'timefisher']
