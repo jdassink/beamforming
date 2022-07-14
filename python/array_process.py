@@ -62,16 +62,16 @@ def main(argv):
             proc.__setattr__('starttime', dt0)
             proc.__setattr__('endtime', dt1)
             stt = prepare_data(st, proc)
-            run_process(stt, proc)
+            run_process(stt, proc, verbose=proc.verbose)
     else:
         stt = prepare_data(st, proc)
-        run_process(stt, proc)
+        run_process(stt, proc, verbose=proc.verbose)
 
     return
 
 # Helper functions
 
-def array_processing(st, proc, verbose=False):
+def array_processing(st, proc, verbose):
     stationtable = export_stationtable(proc)
     data_files = export_datafiles(st)
     data_files = " ".join(data_files)
@@ -136,7 +136,7 @@ def array_processing(st, proc, verbose=False):
         pass
     return
 
-def run_process(st, proc):
+def run_process(st, proc, verbose):
     """
     Wrapper function to call processes. Only when data is present
     """
@@ -144,7 +144,7 @@ def run_process(st, proc):
         print('')
         print(st)
         print('')
-        array_processing(st, proc)
+        array_processing(st, proc, verbose)
     return
 
 def export_datafiles(st):
@@ -188,7 +188,7 @@ def prepare_data(st, proc):
     if len(stt) > 0:
         # Throwing away bad traces
         for tr in stt:
-            tr.data = tr.data.astype(np.float)
+            tr.data = tr.data.astype(np.float64)
             if tr.stats.npts == 1:
                 stt.remove(tr)
     
@@ -201,7 +201,7 @@ def prepare_data(st, proc):
 
         fmin = proc.freq[0]
         fmax = proc.freq[1]
-        print (' - Filtering data [{:.2f} - {:.2f}] Hz'.format(fmin, fmax))
+        print (f' - Filtering data [{fmin:.2f} - {fmax:.2f}] Hz')
         if proc.deconvolution == 'response':
             print ('  - Deconvolving instrument response...')
             stt.attach_response(proc.inventory)

@@ -1,4 +1,4 @@
-  ! Basic beamforming routines, shared by timefisher and freqfisher
+!! Basic beamforming routines, shared by timefisher and freqfisher
  
   module sa_array
   use sa_io
@@ -13,6 +13,8 @@
    integer n_beams, n_c, n_b
    character(40) grid_type, tele_local, max_all
   end type
+
+  double precision, parameter :: linear_max = 550.0
 
   contains
 
@@ -82,78 +84,74 @@
 
 
   subroutine span_slowness_grid(s_grid)
-    integer i, trcvel_grid, linear_grid, n_c_local
-    double precision alpha, delta, linear_max, c_tr, px, py
+    integer i, k, trcvel_grid, linear_grid, local_grid
+    double precision px, py, range
+    double precision, allocatable :: dummy(:)
     type(Slowness) :: s_grid
 
-    s_grid%grid_type = 'cylindrical'
+    if (s_grid%tele_local == 'tele') then
+      trcvel_grid = nint((s_grid%trcvel_max  - s_grid%trcvel_min  ) / s_grid%dc ) + 1
+    
+    elseif (s_grid%tele_local == 'local') then
+      linear_grid = nint((linear_max  - s_grid%trcvel_min  ) / s_grid%dc ) + 1
+      local_grid = linear_grid
+      trcvel_grid = linear_grid + local_grid
 
-    if (s_grid%grid_type == 'cylindrical') then
-      linear_max  = 450.0
-
-      if (s_grid%tele_local == 'tele') then
-        trcvel_grid = nint((s_grid%trcvel_max  - s_grid%trcvel_min  ) / s_grid%dc ) + 1
-
-      elseif (s_grid%tele_local == 'local') then
-        linear_grid = nint((linear_max  - s_grid%trcvel_min  ) / s_grid%dc ) + 1
-        delta       = s_grid%trcvel_max - linear_max
-        alpha       = s_grid%dc / linear_max * 5
-        n_c_local   = nint(log((delta/linear_max) + 1.) / alpha + 1)
-        trcvel_grid = linear_grid + n_c_local
-
-      else
-          write (6,'(a43,a10)') 'ERROR: No support for trace velocity grid: ', s_grid%tele_local
-          call exit(-1)
-      endif
-
-      s_grid%n_b     = nint((s_grid%bearing_max - s_grid%bearing_min ) / s_grid%dth) + 1
-      s_grid%n_c     = trcvel_grid
-      s_grid%n_beams = s_grid%n_b * s_grid%n_c
-
-      ! generate bearing and trace velocity grids
-      allocate(s_grid%bearing( s_grid%n_b ))
-      allocate(s_grid%trcvel ( s_grid%n_c ))
-
-      do i=1,trcvel_grid
-        if ( (s_grid%tele_local == 'local') .and. (i .gt. linear_grid) ) then
-          c_tr  = linear_max * exp(alpha*(i-linear_grid))
-
-        else
-          c_tr  = s_grid%trcvel_min + s_grid%dc*(i-1)
-
-        endif
-        s_grid%trcvel(i) = c_tr
-      end do
-      
-      do i=1,s_grid%n_b
-        s_grid%bearing(i) = s_grid%bearing_min + s_grid%dth*(i-1)
-      end do
-
-
-      ! generate indices to find the bearing and trace velocity from the beam number
-      allocate(s_grid%bi( s_grid%n_beams ))
-      allocate(s_grid%ci( s_grid%n_beams ))
-      ! generate slowness values just once
-      allocate(s_grid%px( s_grid%n_beams ))
-      allocate(s_grid%py( s_grid%n_beams ))
-
-      do i=1,s_grid%n_beams
-        call s_grid_1d_to_2d_index(s_grid%n_b,i,s_grid%bi(i),s_grid%ci(i))
-        call convert_to_slowness( s_grid%bearing(s_grid%bi(i)),   &
-  &                               s_grid%trcvel( s_grid%ci(i)),   &
-  &                               s_grid%px(i),  s_grid%py(i) )
-      end do
-
+    else
+        write (6,'(a43,a10)') 'ERROR: No support for trace velocity grid: ', s_grid%tele_local
+        call exit(-1)
     endif
+
+    ! generate bearing grid
+    s_grid%n_b = nint((s_grid%bearing_max - s_grid%bearing_min) / s_grid%dth) + 1
+    allocate(s_grid%bearing(s_grid%n_b))
+    call linspace(from=s_grid%bearing_min, to=s_grid%bearing_max, array=s_grid%bearing)
+
+    ! generate trace velocity grids
+    s_grid%n_c = trcvel_grid
+    allocate(s_grid%trcvel(s_grid%n_c))
+
+    if (s_grid%tele_local == 'local') then
+      ! Linear part
+      allocate(dummy(linear_grid))
+      call linspace(from=s_grid%trcvel_min, to=linear_max, array=dummy)
+      s_grid%trcvel(1:linear_grid) = dummy
+      deallocate(dummy)
+
+      ! Log-spaced part (for higher trace velocities that do not fit in waveguide)
+      allocate(dummy(local_grid))
+      call logspace(from=linear_max+s_grid%dc, to=s_grid%trcvel_max, array=dummy)
+      s_grid%trcvel(linear_grid+1:s_grid%n_c) = dummy
+      deallocate(dummy)
+
+    else
+      call linspace(from=s_grid%trcvel_min, to=s_grid%trcvel_max, array=s_grid%trcvel)
+    endif
+
+    s_grid%n_beams = s_grid%n_b * s_grid%n_c
+
+    allocate(s_grid%px( s_grid%n_beams ))
+    allocate(s_grid%py( s_grid%n_beams ))
+    ! generate indices to find the bearing and trace velocity from the beam number
+    allocate(s_grid%bi( s_grid%n_beams ))
+    allocate(s_grid%ci( s_grid%n_beams ))
+    
+    ! generate slowness values just once
+    do i=1,s_grid%n_beams
+      call s_grid_1d_to_2d_index(i,s_grid%n_b,s_grid%bi(i),s_grid%ci(i))
+      call convert_to_slowness( s_grid%bearing(s_grid%bi(i)),   &
+&                               s_grid%trcvel( s_grid%ci(i)),   &
+&                               s_grid%px(i),  s_grid%py(i) )
+    end do
+
   end subroutine
 
-  subroutine s_grid_1d_to_2d_index(width_grid,k,bi,ci)
+  subroutine s_grid_1d_to_2d_index(k,width_grid,bi,ci)
    integer k, bi, ci, width_grid
 
    bi = modulo((k-1),width_grid) + 1
    ci = (k-1) / width_grid + 1
   end subroutine
-
 
   subroutine beamgrid_maximum(results,k_max)
    integer k_max, tmp(1)
@@ -191,7 +189,6 @@
     end do
     !$omp end do
     !$omp end parallel
-
   end subroutine
 
 

@@ -188,7 +188,7 @@
 
     do i=1,binsize
       hann = 0.5*(1.0-cos((2*pi*(i-1))/(binsize-1)))
-      counts_bin(i,1:n_instr) = counts_bin(i,1:n_instr)*hann*1.5
+      counts_bin(i,1:n_instr) = counts_bin(i,1:n_instr)*hann*2.0
     end do
   end subroutine
 

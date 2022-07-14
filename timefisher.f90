@@ -204,10 +204,16 @@
 
        call get_bestbeam(bin,start_sample,header,counts,binsize,n_instr,overlap,r,px,py,bestbeam,prms,p2p,freq)
 
-       write (30,98) time, results(k), s_grid%bearing(s_grid%bi(k)), s_grid%trcvel(s_grid%ci(k)), px, py,  &
-  &                        prms, p2p, n_instr, freq%center, freq%bandwith, freq%rms
-       98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x,   &
-  &                        e15.8, 1x, e15.8, 1x, i2, 1x, f8.3, 1x, f8.3, 1x, f8.3)
+       if ((s_grid%bi(k) /= 1) .and. &
+       &   (s_grid%bi(k) /= s_grid%bi(size(s_grid%bi))) .and. &
+       &   (s_grid%ci(k) /= 1) .and. &
+       &   (s_grid%ci(k) /= s_grid%ci(size(s_grid%ci)))) then
+        write (30,98) time, results(k), s_grid%bearing(s_grid%bi(k)), &
+  &                  s_grid%trcvel(s_grid%ci(k)), px, py, prms, p2p, &
+  &                  n_instr, freq%center, freq%bandwith, freq%rms
+        98 format (f10.2, 1x, f10.2, 1x, f8.2, 1x, f8.2, 1x, e15.8, 1x, e15.8, 1x, &
+    &               e15.8, 1x, e15.8, 1x, i2, 1x, f8.3, 1x, f8.3, 1x, f8.3)
+       endif
 
       elseif (s_grid%max_all .eq. 'all') then
        do k=1,s_grid%n_beams

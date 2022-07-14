@@ -198,4 +198,68 @@
     return
   end function splint
 
+
+  subroutine linspace(from, to, array)
+    ! Generates evenly spaced numbers from `from` to `to` (inclusive).
+    !
+    ! Inputs:
+    ! -------
+    ! from, to : the lower and upper boundaries of the numbers to generate
+    !
+    ! Outputs:
+    ! -------
+    ! array : Array of evenly spaced numbers
+      integer, parameter :: dp=kind(0.d0)
+      real(dp), intent(in) :: from, to
+      real(dp), intent(out) :: array(:)
+      real(dp) :: range
+      integer :: n, i
+      n = size(array)
+      range = to - from
+  
+      if (n == 0) return
+  
+      if (n == 1) then
+          array(1) = from
+          return
+      end if
+  
+      do i=1, n
+          array(i) = from + range * (i - 1) / (n - 1)
+      end do
+    end subroutine
+  
+    subroutine logspace(from, to, array)
+    ! Generates logspace from `from` to `to` (inclusive).
+    !
+    ! Inputs:
+    ! -------
+    ! from, to : the lower and upper boundaries of the numbers to generate
+    !
+    ! Outputs:
+    ! -------
+    ! array : Array of evenly spaced numbers
+      integer, parameter :: dp=kind(0.d0)
+      real(dp), intent(in) :: from, to
+      real(dp), intent(out) :: array(:)
+      real(dp) :: range, from_, to_
+      integer :: n, i
+      n = size(array)
+      from_ = log10(from)
+      to_ = log10(to)
+  
+      range = to_ - from_
+  
+      if (n == 0) return
+  
+      if (n == 1) then
+          array(1) = from_
+          return
+      end if
+  
+      do i=1, n
+          array(i) = 10**(from_ + range * (i - 1) / (n - 1))
+      end do
+    end subroutine
+
 end module
