@@ -20,10 +20,13 @@ from obspy.clients.fdsn import Client as fdsn_client
 from obspy.clients.fdsn import RoutingClient
 import os
 
+
 class param_object(object):
     pass
 
+
 default_celerities = (7.0, 3.0, 1.0, 0.5, 0.34, 0.3, 0.25, 0.21)
+
 
 def compute_celerities(t0, distance_km, celerities=None):
     """
@@ -39,7 +42,7 @@ def compute_celerities(t0, distance_km, celerities=None):
         celerity_keys = default_celerities
     else:
         celerity_keys = celerities
-    
+
     celerities = dict()
     for dist in list(distance_km):
         for celerity in celerity_keys:
@@ -47,13 +50,14 @@ def compute_celerities(t0, distance_km, celerities=None):
             celerities[str(celerity_time_unix)] = str(round(celerity, 2))
     return celerities
 
+
 def get_data(data_source, inventory, starttime, endtime, margin_t=10):
     """
     source type options:
 
     local - sds wavestructure
     fdsn - typical dataselect
-    routing - 'iris-federator' or 'eida-routing'   
+    routing - 'iris-federator' or 'eida-routing'
     """
     [(key, value)] = data_source.items()
 
@@ -81,7 +85,9 @@ def get_data(data_source, inventory, starttime, endtime, margin_t=10):
                                           endtime=endtime+margin_t)
                     stream += st
                 except Exception as e:
-                    seed_id = f'{net.code}.{sta.code}.{cha.location_code}.{cha.code}'
+                    seed_id = (f'{net.code}.{sta.code}.'
+                               f'{cha.location_code}.{cha.code}')
+                    print(e)
                     print(f'No data available for {seed_id}')
                     pass
 
@@ -90,6 +96,7 @@ def get_data(data_source, inventory, starttime, endtime, margin_t=10):
         ms.trim(starttime, endtime-samp_rate)
 
     return stream
+
 
 def get_stream_juldays(st):
     """
@@ -102,6 +109,7 @@ def get_stream_juldays(st):
     yj1 = int(t1.strftime(julday_fmt))
     return range(yj0, yj1+1)
 
+
 def get_stream_elements(st):
     """
     """
@@ -109,6 +117,7 @@ def get_stream_elements(st):
     for ms in st:
         elements[ms.id] = ms.stats
     return elements
+
 
 def stream2sds(stream, sds_root, reclen=512, wave_format='mseed', **kwargs):
     """
@@ -138,21 +147,22 @@ def stream2sds(stream, sds_root, reclen=512, wave_format='mseed', **kwargs):
                     try:
                         os.makedirs(out_path)
                     except OSError as e:
-                        print (e.args)
+                        print(e.args)
 
                 msg = f'-> Writing {wave_format} file [ {output} ] ... '
-                print (msg, end='')
+                print(msg, end='')
                 try:
-                    st_ele.write(output,
-                        flush=True, reclen=reclen, format=wave_format)
-                    print ('-> OK!')
+                    st_ele.write(output, flush=True,
+                                 reclen=reclen, format=wave_format)
+                    print('-> OK!')
 
                 except ValueError as e:
-                    print ('-> no data, not written. [ %s ]' % e)
-                    
+                    print(f'-> no data, not written. [ {e} ]')
+
             else:
-                print ('-> No data for station %s on [%s - %s]' % (ele, t0, t1))
+                print(f'-> No data for station {ele} on [{t0} - {t1}]')
     return
+
 
 def stream_count_samples(stream, **kwargs):
     """
@@ -162,6 +172,7 @@ def stream_count_samples(stream, **kwargs):
     for trace in stream:
         n_samples += trace.stats.npts
     return n_samples
+
 
 def stream_unique_seed_id(stream, **kwargs):
     """
