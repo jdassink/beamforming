@@ -157,8 +157,8 @@ def inv_to_df(inv, compute_offset=False, offset_reference='first'):
                 t1 = parse_utcdatetime(cha.end_date)
                 try:
                     gain = cha.response.instrument_sensitivity.value
-                except ValueError as e:
-                    print(e)
+                except Exception as e:
+                    #print(e)
                     gain = -1
                 item = dict(network=net.code,
                             station=sta.code,
@@ -203,8 +203,8 @@ def inv_to_dtk_xml(inv, array_name):
         t0 = ref_sta.start_date.strftime(date_fmt)
         try:
             t1 = ref_sta.end_date.strftime(date_fmt)
-        except ValueError as e:
-            print(e)
+        except Exception as e:
+            print(f'{ref_sta.code}: {e}')
             t1 = None
         station = ET.SubElement(network, 'Station',
                                 code=f'{array_name}',
@@ -230,8 +230,8 @@ def inv_to_dtk_xml(inv, array_name):
                 t0 = _cha.start_date.strftime(date_fmt)
                 try:
                     t1 = _cha.end_date.strftime(date_fmt)
-                except ValueError as e:
-                    print(e)
+                except Exception as e:
+                    print(f'{_cha.code}: {e}')
                     t1 = None
                 channel = ET.SubElement(station, 'Channel',
                                         code=f'{cha}',
@@ -275,8 +275,8 @@ def parse_utcdatetime(time):
     """
     try:
         val = int(time.strftime('%Y%j'))
-    except ValueError as e:
-        print(e)
+    except Exception as e:
+        #print(e)
         val = -1
     return val
 

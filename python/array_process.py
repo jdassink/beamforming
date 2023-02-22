@@ -26,7 +26,7 @@ from obspy import UTCDateTime, read_inventory, Stream
 from waveforms.waveform import get_data
 from waveforms.metadata import select_inventory, inv_to_df, df_to_ascii, get_gain
 
-bf_methods = ['ccts', 'freqfisher', 'tdoa', 'timefisher', 'tfreqfisher']
+bf_methods = ['ccts', 'freqfisher', 'tdoa', 'timefisher', 'tfreqfisher', 'timefisherCDF']
 
 def main(argv):
     print ('')
@@ -119,7 +119,15 @@ def array_processing(st, proc, verbose):
         f'{proc.theta[0]} {proc.theta[1]} {proc.theta[2]} ' \
         f'{proc.c_trace[0]} {proc.c_trace[1]} {proc.c_trace[2]} ' \
         f'{proc.grid_type} {proc.grid_return} sac {data_files}'
-    
+
+    elif proc.method == 'timefisherCDF':
+        print (' - Time-domain Fisher analysis...')
+        cmd  = f'{proc.method} {stationtable} ' \
+        f'{proc.binsize} {proc.overlap} {proc.starttime.timestamp} ' \
+        f'{proc.theta[0]} {proc.theta[1]} {proc.theta[2]} ' \
+        f'{proc.c_trace[0]} {proc.c_trace[1]} {proc.c_trace[2]} ' \
+        f'{proc.grid_type} {proc.grid_return} sac {data_files}'
+
     if verbose:
         print(cmd)
     os.system(cmd)
@@ -225,6 +233,9 @@ def prepare_data(st, proc):
                 fs = tr.stats.sampling_rate
                 if  fs != proc.sampling_rate:
                     tr.interpolate(proc.sampling_rate, method='linear')
+
+        if proc.normalize:
+            st.normalize()
     return stt
 
 def trim_stream(st, proc):
@@ -308,6 +319,9 @@ def process_cli(argv):
     parser.add_argument('-tdm', '--timedomain_detector_method',
         nargs='?', type=str, choices=['ccts', 'tdoa', 'timefisher']
         )
+    parser.add_argument('--normalize', default=False, 
+                        action=argparse.BooleanOptionalAction)
+
     parser.add_argument('-v', dest='verbose', action='store_true')
     args = parser.parse_args()
 
